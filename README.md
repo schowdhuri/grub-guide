@@ -1,141 +1,216 @@
 # Global Grub Guide (GGG) 🌍🍜
 
-A comprehensive food documentation project to meticulously track and document amazing foods discovered while traveling the world.
+A personal food documentation project meticulously tracking amazing foods discovered while traveling the world.
+
+**Live Site**: [https://food.subir.in](https://food.subir.in)
 
 ## 🎯 Project Overview
 
-Global Grub Guide is a static website built with Docusaurus + MDX that creates a searchable encyclopedia of foods organized by countries. Each entry includes detailed cultural context, personal experiences, recipes, photos, and comprehensive tagging for easy discovery.
+Global Grub Guide is a TypeScript-enabled Docusaurus static site featuring dual-view navigation, comprehensive food documentation with cultural context, and an in-house search system. Each entry includes detailed descriptions, personal experiences, recipes, photos, and location metadata.
 
 ## 🏗️ Tech Stack
 
-- **Framework**: Docusaurus 3.5.2 (Static Site Generator)
-- **Content**: MDX (Markdown + React Components)
-- **Language**: TypeScript
-- **Styling**: CSS Custom Properties + Infima Framework
-- **Components**: React 18
-- **Node**: >=18.0
+- **Docusaurus 3.5.2** - TypeScript-enabled static site generator
+- **React 18** - Interactive components
+- **TypeScript** - Full type safety
+- **MDX** - Markdown with embedded React
+- **CSS Custom Properties** - Theme-aware styling
+- **Node.js** - >=18.0 required
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
+## 🚀 Quick Start
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd global-grub-guide
-
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server with file watching
 npm start
+
+# Build for production
+npm run build
+
+# Run TypeScript type checking
+npm run typecheck
+
+# Clean generated files and build artifacts
+npm run clean
 ```
 
-The site will be available at `http://localhost:3000`
-
-### Available Scripts
-
-```bash
-npm start          # Start development server
-npm run build      # Build for production
-npm run serve      # Serve production build locally
-npm run typecheck  # Run TypeScript type checking
-npm run clear      # Clear Docusaurus cache
-```
+Development server: `http://localhost:3000`
 
 ## 📁 Project Structure
 
 ```
 global-grub-guide/
 ├── docs/
-│   └── countries/
-│       └── thailand/          # Country-specific food entries
-│           ├── index.mdx      # Country overview
-│           ├── pad-thai.mdx   # Individual dish entries
-│           └── ...
+│   ├── index.mdx                  # Homepage (no sidebar)
+│   ├── cuisines.mdx               # Cuisine browser hub
+│   ├── locations.mdx              # Location browser hub
+│   ├── food/                      # Source food entries (93 dishes)
+│   │   ├── pad-thai.mdx
+│   │   └── ...
+│   ├── cuisines-view/             # Generated: /cuisines/:slug routes
+│   └── locations-view/            # Generated: /locations/:slug routes
 ├── src/
-│   ├── components/            # React components
+│   ├── components/                # TypeScript React components
+│   │   ├── FoodCard.tsx
 │   │   ├── PhotoGallery.tsx
-│   │   ├── MapEmbed.tsx
-│   │   └── RecipeLinks.tsx
-│   ├── css/
-│   │   └── custom.css         # Global styles
-│   └── pages/                 # Static pages
-├── static/                    # Static assets
-└── docusaurus.config.js       # Docusaurus configuration
+│   │   ├── MapEmbed.tsx           # Multi-location support
+│   │   ├── RecipeLinks.tsx
+│   │   ├── CountryStats.tsx
+│   │   └── SearchComponent.tsx    # In-house search with tag priority
+│   ├── data/
+│   │   └── searchIndex.ts         # Auto-generated search index
+│   ├── theme/
+│   │   └── NavbarItem/            # Custom navbar components
+│   └── css/
+│       └── custom.css
+├── scripts/
+│   ├── generate_dual_views.js     # Dual-view page generator
+│   └── generate_search_index.js   # Search index builder
+├── static/
+│   ├── img/                       # Static assets
+│   └── robots.txt                 # SEO protection (blocks indexing)
+├── sidebars.ts                    # Dual sidebar configuration
+├── docusaurus.config.ts           # Main configuration
+└── tsconfig.json                  # TypeScript config
 ```
 
-## 🏷️ Tagging System
+## 🧭 Navigation Architecture
 
-Foods are comprehensively tagged for searchability:
+### Dual-View System
 
-- **Geographic**: `thailand`, `bangkok`, `isan`, `central`
-- **Type**: `soup`, `noodles`, `dessert`, `street-food`
-- **Characteristics**: `spicy`, `sour`, `sweet`, `aromatic`
-- **Cultural**: `unesco-heritage`, `national-dish`, `traditional`
-- **Dietary**: `vegetarian`, `vegan`, `gluten-free`
+Browse the same food content two different ways:
+
+1. **By Cuisine** (`/cuisines`) - Organized by culinary tradition
+   - Thai, Filipino, Vietnamese cuisines
+   - Categories: Curries, Noodles, Soups, Desserts, etc.
+   - URLs: `/cuisines/:slug`
+
+2. **By Location** (`/locations`) - Organized by geography
+   - Countries and cities
+   - Example: Thailand → Bangkok, Chiang Mai
+   - URLs: `/locations/:slug`
+
+**Implementation**:
+- Source files in `docs/food/` (single source of truth)
+- `generate_dual_views.js` creates two versions with different frontmatter
+- Automatic regeneration in dev mode via file watcher
+- Canonical URLs point to `/food/:slug` for SEO
+
+### URL Structure
+
+- **Homepage**: `/` (no sidebar)
+- **Cuisine Hub**: `/cuisines` (cuisineSidebar)
+- **Location Hub**: `/locations` (locationSidebar)
+- **Food Pages**: `/cuisines/:slug`, `/locations/:slug` (stable canonical: `/food/:slug`)
+
+## 🔍 Search System
+
+**Static In-House Search** with tag prioritization:
+
+1. **Tag matches** (score: 100) - Highest priority
+2. **Title matches** (score: 50)
+3. **Thai name matches** (score: 45)
+4. **Pronunciation matches** (score: 40)
+5. **Description matches** (score: 20)
+6. **Content matches** (score: 10) - Lowest priority
+
+```bash
+# Regenerate search index after adding/editing MDX files
+npm run generate-search-index
+```
+
+Search automatically integrated in navbar via custom component.
 
 ## 🎨 Components
 
 ### PhotoGallery
-```jsx
+```tsx
 <PhotoGallery
   images={[
-    { src: 'image-url', alt: 'description' }
+    { src: 'verified-url', alt: 'descriptive alt text' }
   ]}
 />
 ```
 
-### MapEmbed
-```jsx
+### MapEmbed (Multi-location support)
+```tsx
 <MapEmbed
-  location="Bangkok, Thailand"
-  description="Street food locations"
+  locations={[
+    {
+      country: 'Thailand',
+      city: 'Bangkok',
+      address: 'Optional full address',
+      coordinates: { lat: 13.7563, lng: 100.5018 },
+      mapLink: 'https://maps.google.com/...',
+      notes: 'Personal notes'
+    }
+  ]}
 />
 ```
 
 ### RecipeLinks
-```jsx
+```tsx
 <RecipeLinks
   recipes={[
-    { name: "Recipe Name", url: "url", chef: "Chef Name" }
+    {
+      name: 'Recipe Title',
+      url: 'working-url',
+      chef: 'Chef/Source Name'
+    }
   ]}
 />
 ```
 
 ## 📊 Current Progress
 
-### Thailand 🇹🇭
-- **Completed**: 36/70 approved dishes
-- **Status**: ✅ Complete with working images, dates, and styling
-- **Categories**: Soups, Noodles, Rice, Grilled, Salads, Desserts, Drinks
+### ✅ Complete Documentation
 
-### Upcoming Countries
-- Vietnam 🇻🇳
-- Japan 🇯🇵
-- Italy 🇮🇹
-- Mexico 🇲🇽
-- India 🇮🇳
+**🇹🇭 Thailand** - 36 dishes
+- Categories: Curries, Noodles, Salads, Soups, Rice Dishes, Grilled & BBQ, Stir-Fried, Desserts, Street Food
+- Full cultural context, images, dates, pronunciations
 
-## 🎯 Food Entry Template
+**🇵🇭 Philippines** - 46 dishes
+- Categories: National Dishes, Soups, Regional Specialties, Street Food, Desserts, Silog Meals
 
-Each food entry follows a standardized MDX format:
+**🇻🇳 Vietnam** - 11 dishes
+- Categories: Soups & Broths, Rice Dishes, Spring Rolls, Street Food
 
-```mdx
+### 🎯 Future Countries
+
+Egypt, Uzbekistan, Kazakhstan, Malaysia, Laos, Cambodia
+
+## 📝 Food Entry Schema
+
+### Required Frontmatter
+
+```yaml
 ---
-title: Food Name (Native Script)
-description: Brief description
-tags: [country, region, type, characteristics]
+slug: /food/dish-slug
+title: Dish Name (Native Script)
+description: Brief compelling description
+tags: [country, region, type, characteristics, ingredients]
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
+canonical: /food/dish-slug
+locations:
+  - country: Country Name
+    city: City Name
+    address: "Optional"
+    coordinates: { lat: 0.0, lng: 0.0 }
+    mapLink: "https://maps.google.com/..."
+    notes: "Personal notes"
 ---
+```
 
-# Food Name
-## Subtitle
+### Required Content Structure
+
+```markdown
+# Dish Name (Native Script)
+*Pronunciation: "phonetic guide"*
+
+## English Description
 
 <div className="food-rating">
   <span className="star">⭐</span>My Rating: X/5
@@ -154,35 +229,117 @@ updated: YYYY-MM-DD
   <span className="food-tag">Tag</span>
 </div>
 
-[Content with cultural context, personal experience, etc.]
+## Cultural Significance & History
 
+## My Experience
 <PhotoGallery images={[...]} />
-<MapEmbed location="..." />
+
+## Where I've Tried It
+<MapEmbed locations={[...]} />
+
+## Recipe Links
 <RecipeLinks recipes={[...]} />
 ```
 
-## 🎨 Styling Features
+## 🛠️ Development Workflow
 
-- **Responsive Design**: Mobile-first approach
-- **Dark/Light Theme**: Automatic theme switching
-- **Custom Components**: Food cards, rating widgets, tag systems
-- **Typography**: Optimized for readability
-- **Color Scheme**: Warm, food-inspired palette
+### Adding New Food Entries
 
-## 🔍 Search & Discovery
+1. Create MDX file in `docs/food/` with proper frontmatter
+2. File watcher auto-regenerates dual-view pages in dev mode
+3. Search index updates with `npm run generate-search-index`
+4. TypeScript validation with `npm run typecheck`
 
-- **Tag-based filtering**: Search by any combination of tags
-- **Geographic navigation**: Browse by country/region
-- **Category browsing**: Filter by food type
-- **Progress tracking**: See completion status per country
+### Image Guidelines
 
-## 🤝 Contributing
+**Always test image URLs before adding:**
 
-This is a personal documentation project, but the structure and components can serve as a template for similar food documentation efforts.
+```bash
+curl -s -o /dev/null -w "%{http_code}" "image-url"
+# Must return: 200
+```
 
-## 📝 License
+**Preferred sources:**
+- ✅ Wikimedia Commons (reliable, permanent URLs)
+- ✅ Government tourism sites
+- ✅ Official restaurant/chef websites
+- ❌ Social media (often broken)
+- ❌ Temporary hosting
 
-Private project for personal food documentation.
+### Quality Checklist
+
+- [ ] All image URLs tested with curl (200 OK)
+- [ ] TypeScript compilation passes
+- [ ] Pronunciation guides for non-English names
+- [ ] Human-friendly dates in content
+- [ ] Proper tagging for searchability
+- [ ] Canonical URLs present
+
+## 🔒 SEO & Protection
+
+**Current Status**: Indexing blocked (development phase)
+
+- `robots.txt` blocks all search engines and AI crawlers
+- Meta tags: `noindex, nofollow, ai-content-declaration: no-scrape`
+- Blocks: GPTBot, Claude-Web, CCBot, Google-Extended, PerplexityBot, and 15+ AI scrapers
+
+**When Ready to Launch**:
+1. Remove `headTags` section from `docusaurus.config.ts`
+2. Replace `robots.txt` with open version
+
+## 📜 Available Scripts
+
+```bash
+npm start                    # Dev server + file watching
+npm run build                # Production build with dual-view generation
+npm run serve                # Serve production build locally
+npm run typecheck            # TypeScript validation
+npm run clean                # Remove generated files and build artifacts
+npm run generate-dual-views  # Manually regenerate cuisine/location views
+npm run generate-search-index # Rebuild search index
+npm run clear                # Clear Docusaurus cache
+```
+
+## 🎨 Styling System
+
+- **Theme-aware colors**: `var(--ifm-color-*)`
+- **Transparent backgrounds** for rating widgets
+- **Consistent typography** and spacing
+- **Mobile-first** responsive design
+- **Dark/Light mode** support
+
+### Component Classes
+
+- `.food-rating` - Rating display container
+- `.star` - Star emoji styling (gold)
+- `.food-metadata` - Date information
+- `.spice-level` - Spice level indicators
+- `.food-tags` - Tag container and individual tags
+
+## 🔧 TypeScript Integration
+
+Full type safety across:
+- All React components
+- Docusaurus configuration
+- Sidebar definitions
+- Search index generation
+
+```bash
+npm run typecheck  # Run before committing
+```
+
+## 📦 Deployment
+
+**Production URL**: https://food.subir.in
+
+```bash
+npm run build   # Generates optimized static files in build/
+npm run deploy  # Deploy to hosting (configure in docusaurus.config.ts)
+```
+
+## 🙏 Acknowledgments
+
+Built with [Docusaurus](https://docusaurus.io/) - Meta's static site generator for documentation.
 
 ---
 
