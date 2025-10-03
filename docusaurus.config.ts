@@ -8,13 +8,14 @@ const config: Config = {
   favicon: 'img/logo.svg',
 
   // Set the production url of your site here
-  url: 'https://food.subir.in',
+  url: 'https://schowdhuri.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/',
+  baseUrl: '/grub-guide/',
 
   // GitHub pages deployment config.
-  organizationName: 'subir',
-  projectName: 'global-grub-guide',
+  organizationName: 'schowdhuri',
+  projectName: 'grub-guide',
+  trailingSlash: false,
 
   onBrokenLinks: 'warn',
 
@@ -56,7 +57,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath: './src/sidebars.ts',
           routeBasePath: '/', // Serve docs at site's root
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
