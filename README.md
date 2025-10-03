@@ -4,19 +4,6 @@ A personal food documentation project meticulously tracking amazing foods discov
 
 **Live Site**: [https://food.subir.in](https://food.subir.in)
 
-## 🎯 Project Overview
-
-Global Grub Guide is a TypeScript-enabled Docusaurus static site featuring dual-view navigation, comprehensive food documentation with cultural context, and an in-house search system. Each entry includes detailed descriptions, personal experiences, recipes, photos, and location metadata.
-
-## 🏗️ Tech Stack
-
-- **Docusaurus 3.5.2** - TypeScript-enabled static site generator
-- **React 18** - Interactive components
-- **TypeScript** - Full type safety
-- **MDX** - Markdown with embedded React
-- **CSS Custom Properties** - Theme-aware styling
-- **Node.js** - >=22.0 required
-
 ## 🚀 Quick Start
 
 ```bash
@@ -164,27 +151,6 @@ Search automatically integrated in navbar via custom component.
 />
 ```
 
-## 📊 Current Progress
-
-### ✅ Complete Documentation
-
-**🇹🇭 Thailand** - 36 dishes
-
-- Categories: Curries, Noodles, Salads, Soups, Rice Dishes, Grilled & BBQ, Stir-Fried, Desserts, Street Food
-- Full cultural context, images, dates, pronunciations
-
-**🇵🇭 Philippines** - 46 dishes
-
-- Categories: National Dishes, Soups, Regional Specialties, Street Food, Desserts, Silog Meals
-
-**🇻🇳 Vietnam** - 11 dishes
-
-- Categories: Soups & Broths, Rice Dishes, Spring Rolls, Street Food
-
-### 🎯 Future Countries
-
-Egypt, Uzbekistan, Kazakhstan, Malaysia, Laos, Cambodia
-
 ## 📝 Food Entry Schema
 
 ### Required Frontmatter
@@ -258,32 +224,6 @@ _Pronunciation: "phonetic guide"_
 3. Search index updates with `npm run generate-search-index`
 4. TypeScript validation with `npm run typecheck`
 
-### Image Guidelines
-
-**Always test image URLs before adding:**
-
-```bash
-curl -s -o /dev/null -w "%{http_code}" "image-url"
-# Must return: 200
-```
-
-**Preferred sources:**
-
-- ✅ Wikimedia Commons (reliable, permanent URLs)
-- ✅ Government tourism sites
-- ✅ Official restaurant/chef websites
-- ❌ Social media (often broken)
-- ❌ Temporary hosting
-
-### Quality Checklist
-
-- [ ] All image URLs tested with curl (200 OK)
-- [ ] TypeScript compilation passes
-- [ ] Pronunciation guides for non-English names
-- [ ] Human-friendly dates in content
-- [ ] Proper tagging for searchability
-- [ ] Canonical URLs present
-
 ## 🔒 SEO & Protection
 
 **Current Status**: Indexing blocked (development phase)
@@ -339,18 +279,13 @@ Full type safety across:
 npm run typecheck  # Run before committing
 ```
 
-## 📦 Deployment
+## 🏗️ Tech Stack
 
-**Production URL**: https://food.subir.in
-
-```bash
-npm run build   # Generates optimized static files in build/
-npm run deploy  # Deploy to hosting (configure in docusaurus.config.ts)
-```
-
-## 🙏 Acknowledgments
-
-Built with [Docusaurus](https://docusaurus.io/) - Meta's static site generator for documentation.
+- **Docusaurus 3.5.2** - Meta's static site generator for documentation.
+- **React 18** - Interactive components
+- **TypeScript** - Full type safety
+- **MDX** - Markdown with embedded React
+- **Node.js** - >=22.0 required
 
 ---
 
