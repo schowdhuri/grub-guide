@@ -59,18 +59,17 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          to: '/cuisines',
           position: 'left',
-          label: 'Countries',
+          label: 'Cuisines',
+        },
+        {
+          to: '/locations',
+          position: 'left',
+          label: 'Locations',
         },
         {
           type: 'custom-searchNavbarItem',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/subir/global-grub-guide',
-          label: 'GitHub',
           position: 'right',
         },
       ],
@@ -79,11 +78,15 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Countries',
+          title: 'Browse',
           items: [
             {
-              label: 'Thailand',
-              to: '/countries/thailand',
+              label: 'By Cuisine',
+              to: '/cuisines',
+            },
+            {
+              label: 'By Location',
+              to: '/locations',
             },
           ],
         },

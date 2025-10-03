@@ -16,21 +16,25 @@ function parseMDXFile(filePath) {
     // Parse frontmatter
     const title = frontmatterText.match(/title:\s*(.+)/)?.[1]?.replace(/['"]/g, '') || '';
     const description = frontmatterText.match(/description:\s*(.+)/)?.[1]?.replace(/['"]/g, '') || '';
+    const slugMatch = frontmatterText.match(/slug:\s*(.+)/)?.[1]?.replace(/['"]/g, '');
     const tagsMatch = frontmatterText.match(/tags:\s*\[(.*?)\]/s);
     const tags = tagsMatch && tagsMatch[1] ?
       tagsMatch[1].split(',').map(tag => tag.trim().replace(/['"]/g, '')) : [];
 
-    // Extract Thai name from title
-    const thaiNameMatch = title.match(/\(([^\)]*[\u0E00-\u0E7F][^\)]*)\)/);
-    const thaiName = thaiNameMatch ? thaiNameMatch[1] : undefined;
+    // Extract native name from title (Thai, Vietnamese, etc.)
+    const nativeNameMatch = title.match(/\(([^\)]*[\u0E00-\u0E7F\u1EA0-\u1EF9][^\)]*)\)/);
+    const nativeName = nativeNameMatch ? nativeNameMatch[1] : undefined;
 
     // Extract pronunciation
-    const pronunciationMatch = body.match(/\*Pronunciation:\s*['""]([^'""]*)['""]\*/);
+    const pronunciationMatch = body.match(/\*Pronunciation:\s*["']([^"']*?)["']\*/);
     const pronunciation = pronunciationMatch ? pronunciationMatch[1] : undefined;
 
-    // Generate URL from filename
+    // Use slug from frontmatter or fallback to filename
     const filename = path.basename(filePath, '.mdx');
-    const url = filename === 'index' ? '/countries/thailand' : `/countries/thailand/${filename}`;
+    const url = slugMatch || `/food/${filename}`;
+
+    // Extract country from tags (first tag is usually the country)
+    const country = tags[0] || 'unknown';
 
     // Clean content for search
     const cleanContent = body
@@ -43,15 +47,16 @@ function parseMDXFile(filePath) {
       .trim();
 
     const result = {
-      title: title.replace(/\s*\([^)]*\)/, ''), // Remove Thai name from title
+      title: title.replace(/\s*\([^)]*\)/, ''), // Remove native name from title
       url,
       tags,
       description,
-      content: cleanContent
+      content: cleanContent,
+      country
     };
 
-    if (thaiName) {
-      result.thaiName = thaiName;
+    if (nativeName) {
+      result.nativeName = nativeName;
     }
     if (pronunciation) {
       result.pronunciation = pronunciation;
@@ -64,17 +69,19 @@ function parseMDXFile(filePath) {
   }
 }
 
-// Generate search index
+// Generate search index for all food items
 function generateSearchIndex() {
-  const thaiDir = path.join(process.cwd(), 'docs', 'countries', 'thailand');
-  const files = fs.readdirSync(thaiDir)
-    .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
+  const foodDir = path.join(process.cwd(), 'docs', 'food');
+  const files = fs.readdirSync(foodDir)
+    .filter(file => file.endsWith('.mdx'))
     .sort();
+
+  console.log(`Processing ${files.length} food files`);
 
   const searchItems = [];
 
   for (const file of files) {
-    const filePath = path.join(thaiDir, file);
+    const filePath = path.join(foodDir, file);
     const item = parseMDXFile(filePath);
     if (item) {
       searchItems.push(item);
@@ -89,7 +96,8 @@ export interface SearchItem {
   tags: string[];
   description: string;
   content: string;
-  thaiName?: string;
+  country: string;
+  nativeName?: string;
   pronunciation?: string;
 }
 
@@ -106,6 +114,13 @@ export const searchIndex: SearchItem[] = ${JSON.stringify(searchItems, null, 2)}
 
   fs.writeFileSync(outputPath, tsContent);
   console.log(`Generated search index with ${searchItems.length} items at ${outputPath}`);
+
+  // Log breakdown by country
+  const countryBreakdown = searchItems.reduce((acc, item) => {
+    acc[item.country] = (acc[item.country] || 0) + 1;
+    return acc;
+  }, {});
+  console.log('Items by country:', countryBreakdown);
 }
 
 generateSearchIndex();
