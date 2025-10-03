@@ -58,10 +58,7 @@ const config: Config = {
         docs: {
           sidebarPath: "./src/sidebars.ts",
           routeBasePath: "/", // Serve docs at site's root
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: undefined, // Disable "edit this page" links
         },
         blog: false,
         theme: {
