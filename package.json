@@ -2,6 +2,9 @@
   "name": "global-grub-guide",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "npm run generate-dual-views && npm-run-all --parallel start:watch start:docusaurus",
@@ -51,8 +54,5 @@
       "last 3 firefox version",
       "last 5 safari version"
     ]
-  },
-  "engines": {
-    "node": ">=18.0"
   }
 }

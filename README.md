@@ -15,7 +15,7 @@ Global Grub Guide is a TypeScript-enabled Docusaurus static site featuring dual-
 - **TypeScript** - Full type safety
 - **MDX** - Markdown with embedded React
 - **CSS Custom Properties** - Theme-aware styling
-- **Node.js** - >=18.0 required
+- **Node.js** - >=22.0 required
 
 ## 🚀 Quick Start
 
@@ -83,6 +83,7 @@ global-grub-guide/
 Browse the same food content two different ways:
 
 1. **By Cuisine** (`/cuisines`) - Organized by culinary tradition
+
    - Thai, Filipino, Vietnamese cuisines
    - Categories: Curries, Noodles, Soups, Desserts, etc.
    - URLs: `/cuisines/:slug`
@@ -93,6 +94,7 @@ Browse the same food content two different ways:
    - URLs: `/locations/:slug`
 
 **Implementation**:
+
 - Source files in `docs/food/` (single source of truth)
 - `generate_dual_views.js` creates two versions with different frontmatter
 - Automatic regeneration in dev mode via file watcher
@@ -126,39 +128,38 @@ Search automatically integrated in navbar via custom component.
 ## 🎨 Components
 
 ### PhotoGallery
+
 ```tsx
-<PhotoGallery
-  images={[
-    { src: 'verified-url', alt: 'descriptive alt text' }
-  ]}
-/>
+<PhotoGallery images={[{ src: "verified-url", alt: "descriptive alt text" }]} />
 ```
 
 ### MapEmbed (Multi-location support)
+
 ```tsx
 <MapEmbed
   locations={[
     {
-      country: 'Thailand',
-      city: 'Bangkok',
-      address: 'Optional full address',
+      country: "Thailand",
+      city: "Bangkok",
+      address: "Optional full address",
       coordinates: { lat: 13.7563, lng: 100.5018 },
-      mapLink: 'https://maps.google.com/...',
-      notes: 'Personal notes'
-    }
+      mapLink: "https://maps.google.com/...",
+      notes: "Personal notes",
+    },
   ]}
 />
 ```
 
 ### RecipeLinks
+
 ```tsx
 <RecipeLinks
   recipes={[
     {
-      name: 'Recipe Title',
-      url: 'working-url',
-      chef: 'Chef/Source Name'
-    }
+      name: "Recipe Title",
+      url: "working-url",
+      chef: "Chef/Source Name",
+    },
   ]}
 />
 ```
@@ -168,13 +169,16 @@ Search automatically integrated in navbar via custom component.
 ### ✅ Complete Documentation
 
 **🇹🇭 Thailand** - 36 dishes
+
 - Categories: Curries, Noodles, Salads, Soups, Rice Dishes, Grilled & BBQ, Stir-Fried, Desserts, Street Food
 - Full cultural context, images, dates, pronunciations
 
 **🇵🇭 Philippines** - 46 dishes
+
 - Categories: National Dishes, Soups, Regional Specialties, Street Food, Desserts, Silog Meals
 
 **🇻🇳 Vietnam** - 11 dishes
+
 - Categories: Soups & Broths, Rice Dishes, Spring Rolls, Street Food
 
 ### 🎯 Future Countries
@@ -208,7 +212,8 @@ locations:
 
 ```markdown
 # Dish Name (Native Script)
-*Pronunciation: "phonetic guide"*
+
+_Pronunciation: "phonetic guide"_
 
 ## English Description
 
@@ -232,12 +237,15 @@ locations:
 ## Cultural Significance & History
 
 ## My Experience
+
 <PhotoGallery images={[...]} />
 
 ## Where I've Tried It
+
 <MapEmbed locations={[...]} />
 
 ## Recipe Links
+
 <RecipeLinks recipes={[...]} />
 ```
 
@@ -260,6 +268,7 @@ curl -s -o /dev/null -w "%{http_code}" "image-url"
 ```
 
 **Preferred sources:**
+
 - ✅ Wikimedia Commons (reliable, permanent URLs)
 - ✅ Government tourism sites
 - ✅ Official restaurant/chef websites
@@ -284,6 +293,7 @@ curl -s -o /dev/null -w "%{http_code}" "image-url"
 - Blocks: GPTBot, Claude-Web, CCBot, Google-Extended, PerplexityBot, and 15+ AI scrapers
 
 **When Ready to Launch**:
+
 1. Remove `headTags` section from `docusaurus.config.ts`
 2. Replace `robots.txt` with open version
 
@@ -319,6 +329,7 @@ npm run clear                # Clear Docusaurus cache
 ## 🔧 TypeScript Integration
 
 Full type safety across:
+
 - All React components
 - Docusaurus configuration
 - Sidebar definitions
@@ -343,4 +354,4 @@ Built with [Docusaurus](https://docusaurus.io/) - Meta's static site generator f
 
 ---
 
-*Documenting the world, one bite at a time* 🌍✨
+_Documenting the world, one bite at a time_ 🌍✨
