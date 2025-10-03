@@ -58,7 +58,7 @@ const config: Config = {
         docs: {
           sidebarPath: "./src/sidebars.ts",
           routeBasePath: "/", // Serve docs at site's root
-          editUrl: undefined, // Disable "edit this page" links
+          // editUrl is omitted to disable "edit this page" links
         },
         blog: false,
         theme: {
