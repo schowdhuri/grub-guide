@@ -8,15 +8,13 @@ const config: Config = {
   favicon: 'img/logo.svg',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://food.subir.in',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'subir', // Usually your GitHub org/user name.
-  projectName: 'global-grub-guide', // Usually your repo name.
+  organizationName: 'subir',
+  projectName: 'global-grub-guide',
 
   onBrokenLinks: 'warn',
 
@@ -27,6 +25,31 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  // Prevent search engine indexing and LLM scraping
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'robots',
+        content: 'noindex, nofollow',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'googlebot',
+        content: 'noindex, nofollow',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'ai-content-declaration',
+        content: 'no-scrape',
+      },
+    },
+  ],
 
   presets: [
     [
