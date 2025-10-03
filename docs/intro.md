@@ -1,10 +1,6 @@
 # Welcome to Global Grub Guide 🍜🌍
 
-Welcome to my personal food documentation project! As a foodie, traveler, photographer, software engineer and compulsive note taker, I want to meticulously document and track all the amazing foods I eat as I travel the world.
-
-## About This Project
-
-This site chronicles my culinary adventures across the countries I've visited, featuring authentic dishes, personal experiences, and cultural insights. Each food entry includes:
+Welcome to my personal food documentation project! This site chronicles my culinary adventures across the countries I've visited, featuring authentic dishes, personal experiences, and cultural insights. Each food entry includes:
 
 - **Cultural significance** and history
 - **Authentic ingredients** and preparation methods
@@ -12,26 +8,6 @@ This site chronicles my culinary adventures across the countries I've visited, f
 - **Recipe links** to authentic sources
 - **Location details** with embedded maps
 - **Personal ratings** and tasting notes
-
-## Countries I've Explored
-
-import { CountryStats } from '@site/src/components/CountryStats';
-
-<CountryStats />
-
-## Featured Cuisines
-
-### 🇹🇭 Thailand
-Home to incredible flavors like **khao kha moo** (braised pork leg rice) and **tom yum goong** (hot & sour shrimp soup). Thai cuisine perfectly balances sweet, sour, salty, spicy, and bitter flavors.
-
-### 🇻🇳 Vietnam
-Fresh, herbaceous dishes like **bun cha** (grilled pork with noodles) and **my quang** (turmeric noodle soup) showcase Vietnam's focus on balance and freshness.
-
-### 🇲🇾 Malaysia
-A melting pot of flavors, featuring dishes like **nasi lemak** (coconut rice with accompaniments) that reflect the country's diverse cultural heritage.
-
-### And Many More...
-From **pork larb** in Laos to **hawoushi** in Egypt, each country offers unique flavors and culinary traditions worth documenting.
 
 ## How to Navigate
 
@@ -43,4 +19,4 @@ From **pork larb** in Laos to **hawoushi** in Egypt, each country offers unique 
 
 This is a living document that grows with each travel adventure. While I start with placeholder images, I'll gradually replace them with my personal photos and add new discoveries from future travels.
 
-Start exploring by selecting a country from the sidebar, or dive right into my favorites in Thailand! 🌶️
+Start exploring by selecting a country or cuisine from the sidebar, or dive right into my favorites in Thailand! 🌶️
