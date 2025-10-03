@@ -54,3 +54,7 @@ temp/
 # Docusaurus specific
 .docusaurus/
 .cache-loader/
+
+# Generated dual-view pages
+docs/cuisines-view/
+docs/locations-view/
