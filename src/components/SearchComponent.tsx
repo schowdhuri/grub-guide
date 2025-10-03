@@ -9,7 +9,7 @@ interface SearchResult {
   tags: string[];
   description: string;
   content: string;
-  thaiName?: string;
+  nativeName?: string;
   pronunciation?: string;
   score: number;
   matchType: 'tag' | 'title' | 'description' | 'content';
@@ -59,8 +59,8 @@ export function SearchComponent(): React.JSX.Element {
           if (matchType === 'content') matchType = 'title';
         }
 
-        // Thai name matches (high priority - score 45)
-        if (item.thaiName && item.thaiName.includes(queryLower)) {
+        // Native name matches (high priority - score 45)
+        if (item.nativeName && item.nativeName.includes(queryLower)) {
           score += 45;
           if (matchType === 'content') matchType = 'title';
         }
@@ -84,17 +84,22 @@ export function SearchComponent(): React.JSX.Element {
       }
 
       if (score > 0) {
-        searchResults.push({
+        const result: SearchResult = {
           title: item.title,
           url: item.url,
           tags: item.tags,
           description: item.description,
           content: item.content,
-          thaiName: item.thaiName,
-          pronunciation: item.pronunciation,
           score,
           matchType
-        });
+        };
+        if (item.nativeName) {
+          result.nativeName = item.nativeName;
+        }
+        if (item.pronunciation) {
+          result.pronunciation = item.pronunciation;
+        }
+        searchResults.push(result);
       }
     }
 
@@ -277,8 +282,8 @@ export function SearchComponent(): React.JSX.Element {
                           {getMatchTypeIndicator(result.matchType)}
                         </span>
                         <span className="search-result-title">{result.title}</span>
-                        {result.thaiName && (
-                          <span className="search-result-thai">({result.thaiName})</span>
+                        {result.nativeName && (
+                          <span className="search-result-thai">({result.nativeName})</span>
                         )}
                       </div>
                       <div className="search-result-description">{result.description}</div>
