@@ -204,3 +204,13 @@
   color: var(--ifm-color-warning-dark);
 }
 
+/* Minimal footer styling */
+.footer {
+  padding: 1rem 0 !important;
+}
+
+.footer__copyright {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}

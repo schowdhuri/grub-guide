@@ -96,21 +96,6 @@ const config: Config = {
     },
     footer: {
       style: "light",
-      links: [
-        {
-          title: "Browse",
-          items: [
-            {
-              label: "By Cuisine",
-              to: "/cuisines",
-            },
-            {
-              label: "By Location",
-              to: "/locations",
-            },
-          ],
-        },
-      ],
       copyright: `© ${new Date().getFullYear()} Subir Chowdhuri`,
     },
     prism: {
