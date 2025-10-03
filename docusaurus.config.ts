@@ -95,7 +95,7 @@ const config: Config = {
       ],
     },
     footer: {
-      style: "dark",
+      style: "light",
       links: [
         {
           title: "Browse",
@@ -110,17 +110,8 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: "More",
-          items: [
-            {
-              label: "GitHub",
-              href: "https://github.com/subir/global-grub-guide",
-            },
-          ],
-        },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Global Grub Guide. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} Subir Chowdhuri`,
     },
     prism: {
       theme: prismThemes.github,
