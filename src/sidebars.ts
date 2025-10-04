@@ -291,6 +291,128 @@ const sidebars: SidebarsConfig = {
           ]
         }
       ]
+    },
+    {
+      "type": "category",
+      "label": "🇺🇿 Uzbek Cuisine",
+      "items": [
+        {
+          "type": "category",
+          "label": "Rice Dishes & Plov",
+          "items": [
+            "food/plov",
+            "food/tashkent-plov",
+            "food/samarkand-plov",
+            "food/shah-plov",
+            "food/oshi-nahor"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Breads & Pastries",
+          "items": [
+            "food/non",
+            "food/patir-non",
+            "food/samarkand-non",
+            "food/katlama",
+            "food/somsa",
+            "food/somsa-qovoq",
+            "food/somsa-jigar"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Noodles",
+          "items": [
+            "food/lagman",
+            "food/lagman-shorva",
+            "food/norin",
+            "food/shivit-oshi"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Dumplings",
+          "items": [
+            "food/manti",
+            "food/chuchvara",
+            "food/qovurma-manti",
+            "food/tukhum-barak"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Soups",
+          "items": [
+            "food/shurpa",
+            "food/chuchvara-shorva",
+            "food/moshkichiri",
+            "food/nohat-shurak"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Grilled & Kebabs",
+          "items": [
+            "food/shashlik",
+            "food/lyulya-kabob",
+            "food/jigar-kabob",
+            "food/dumba",
+            "food/tandir-kabob"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Stews & Braised",
+          "items": [
+            "food/dimlama",
+            "food/qovurma"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Salads",
+          "items": [
+            "food/achichuk",
+            "food/tashkent-salad"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Specialty Dishes",
+          "items": [
+            "food/hasip",
+            "food/qazi",
+            "food/kazy",
+            "food/jiz",
+            "food/qosh-tili",
+            "food/noxat"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Desserts & Sweets",
+          "items": [
+            "food/paklava",
+            "food/halva",
+            "food/navat",
+            "food/sumalak",
+            "food/chak-chak",
+            "food/qovun"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Beverages",
+          "items": [
+            "food/kok-choy",
+            "food/qora-choy",
+            "food/qahva",
+            "food/ayran",
+            "food/bodom-sharbat"
+          ]
+        }
+      ]
     }
   ],
   "locationSidebar": [
@@ -479,6 +601,57 @@ const sidebars: SidebarsConfig = {
           "label": "Hue & Central Vietnam",
           "items": [
             "locations-view/bun-bo-hue"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "🇺🇿 Uzbekistan",
+      "items": [
+        {
+          "type": "category",
+          "label": "Tashkent (Capital)",
+          "items": [
+            "food/plov",
+            "food/tashkent-plov",
+            "food/somsa",
+            "food/shashlik",
+            "food/lagman",
+            "food/manti",
+            "food/shurpa",
+            "food/non",
+            "food/tashkent-salad",
+            "food/ayran"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Samarkand (Silk Road City)",
+          "items": [
+            "food/samarkand-plov",
+            "food/samarkand-non",
+            "food/paklava",
+            "food/navat"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "National Dishes (All Regions)",
+          "items": [
+            "food/chuchvara",
+            "food/norin",
+            "food/dimlama",
+            "food/qovurma",
+            "food/lyulya-kabob",
+            "food/dumba",
+            "food/hasip",
+            "food/qazi",
+            "food/achichuk",
+            "food/halva",
+            "food/sumalak",
+            "food/kok-choy",
+            "food/qora-choy"
           ]
         }
       ]
