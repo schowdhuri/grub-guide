@@ -165,6 +165,31 @@ export function SearchComponent(): React.JSX.Element {
     }
   }, [isModalOpen]);
 
+  // Handle Android back button
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    // Push a new history state when modal opens
+    window.history.pushState({ searchModal: true }, '');
+
+    const handlePopState = (e: PopStateEvent) => {
+      if (isModalOpen) {
+        e.preventDefault();
+        closeModal();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      // Clean up history state if modal is still open
+      if (window.history.state?.searchModal) {
+        window.history.back();
+      }
+    };
+  }, [isModalOpen]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
@@ -182,6 +207,17 @@ export function SearchComponent(): React.JSX.Element {
   const closeModal = () => {
     setIsModalOpen(false);
     setQuery('');
+  };
+
+  const handleCloseButtonClick = () => {
+    if (query.trim()) {
+      // If there's text, just clear it
+      setQuery('');
+      inputRef.current?.focus();
+    } else {
+      // If empty, close the modal
+      closeModal();
+    }
   };
 
   const getMatchTypeIndicator = (matchType: SearchResult['matchType']) => {
@@ -218,6 +254,13 @@ export function SearchComponent(): React.JSX.Element {
             ref={modalRef}
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              className="search-modal-close"
+              onClick={handleCloseButtonClick}
+              aria-label={query.trim() ? "Clear search" : "Close search"}
+            >
+              ✕
+            </button>
             <div className="search-modal-header">
               <div className="search-input-wrapper">
                 <span className="search-input-icon">🔍</span>

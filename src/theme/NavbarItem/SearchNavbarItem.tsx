@@ -3,7 +3,7 @@ import { SearchComponent } from '@site/src/components/SearchComponent';
 
 export default function SearchNavbarItem(): React.JSX.Element {
   return (
-    <div style={{ marginRight: '1rem' }}>
+    <div className="search-navbar-wrapper">
       <SearchComponent />
     </div>
   );
