@@ -15,6 +15,10 @@
   --ifm-color-primary-lightest: #ff9e5f;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Typography */
+  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -213,4 +217,68 @@
   text-align: center;
   font-size: 0.8rem;
   color: var(--ifm-color-emphasis-600);
+}
+
+/* Mobile sidebar improvements */
+@media (max-width: 996px) {
+  /* Hide search in mobile sidebar - try multiple selectors */
+  .navbar-sidebar__items .menu__list-item:last-child,
+  .navbar-sidebar .menu__list .menu__list-item:has(.search-navbar-wrapper),
+  .navbar-sidebar .menu__list-item [class*="searchNavbarItem"],
+  .navbar-sidebar .search-navbar-wrapper {
+    display: none !important;
+  }
+
+  /* Better link styling in mobile sidebar - only for top-level items */
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link {
+    font-size: 1.125rem;
+    font-weight: 500;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin: 0;
+    transition: all 0.2s ease;
+    background: var(--ifm-color-emphasis-100);
+    border: 1px solid var(--ifm-color-emphasis-200);
+    color: var(--ifm-color-content);
+  }
+
+  /* Add icons before top-level links */
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link[href="/cuisines"]::before {
+    content: "🍜 ";
+    margin-right: 0.5rem;
+  }
+
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link[href="/locations"]::before {
+    content: "📍 ";
+    margin-right: 0.5rem;
+  }
+
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link:not(.menu__link--sublist):not(.menu__link--active):active {
+    background: var(--ifm-color-emphasis-200);
+    transform: scale(0.98);
+  }
+
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active {
+    background: var(--ifm-color-primary);
+    color: white;
+    font-weight: 600;
+    border-color: var(--ifm-color-primary);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    position: relative;
+  }
+
+  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active::after {
+    content: "›";
+    position: absolute;
+    right: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    opacity: 0.9;
+  }
+
+  [data-theme='dark'] .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active {
+    background: var(--ifm-color-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 137, 89, 0.3);
+  }
 }
