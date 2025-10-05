@@ -31,36 +31,6 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "category",
-          "label": "Beverages",
-          "items": [
-            "cuisines-view/buko-juice",
-            "cuisines-view/calamansi-juice"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Breakfast & Silog",
-          "items": [
-            "cuisines-view/cornsilog",
-            "cuisines-view/longsilog",
-            "cuisines-view/tapsilog",
-            "cuisines-view/tocilog"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Desserts & Sweets",
-          "items": [
-            "cuisines-view/bibingka",
-            "cuisines-view/biko",
-            "cuisines-view/halo-halo",
-            "cuisines-view/leche-flan",
-            "cuisines-view/puto",
-            "cuisines-view/suman"
-          ]
-        },
-        {
-          "type": "category",
           "label": "National Dishes & Adobo",
           "items": [
             "cuisines-view/adobo",
@@ -70,10 +40,26 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
-          "label": "Noodles & Pancit",
+          "label": "Soups & Comfort Food",
           "items": [
-            "cuisines-view/pancit-bihon",
-            "cuisines-view/pancit-canton"
+            "cuisines-view/arroz-caldo",
+            "cuisines-view/batchoy",
+            "cuisines-view/bulalo",
+            "cuisines-view/lugaw",
+            "cuisines-view/sinigang-na-hipon",
+            "cuisines-view/sopas"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Traditional Stews & Braised",
+          "items": [
+            "cuisines-view/balbacua",
+            "cuisines-view/dinuguan-bicol-style",
+            "cuisines-view/dinuguan-standard",
+            "cuisines-view/humba",
+            "cuisines-view/humba-visayan",
+            "cuisines-view/menudo"
           ]
         },
         {
@@ -96,14 +82,20 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
-          "label": "Soups & Comfort Food",
+          "label": "Breakfast & Silog",
           "items": [
-            "cuisines-view/arroz-caldo",
-            "cuisines-view/batchoy",
-            "cuisines-view/bulalo",
-            "cuisines-view/lugaw",
-            "cuisines-view/sinigang-na-hipon",
-            "cuisines-view/sopas"
+            "cuisines-view/cornsilog",
+            "cuisines-view/longsilog",
+            "cuisines-view/tapsilog",
+            "cuisines-view/tocilog"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Noodles & Pancit",
+          "items": [
+            "cuisines-view/pancit-bihon",
+            "cuisines-view/pancit-canton"
           ]
         },
         {
@@ -123,22 +115,30 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
-          "label": "Traditional Stews & Braised",
-          "items": [
-            "cuisines-view/balbacua",
-            "cuisines-view/dinuguan-bicol-style",
-            "cuisines-view/dinuguan-standard",
-            "cuisines-view/humba",
-            "cuisines-view/humba-visayan",
-            "cuisines-view/menudo"
-          ]
-        },
-        {
-          "type": "category",
           "label": "Wrapped & Filled",
           "items": [
             "cuisines-view/empanada",
             "cuisines-view/lumpia"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Desserts & Sweets",
+          "items": [
+            "cuisines-view/bibingka",
+            "cuisines-view/biko",
+            "cuisines-view/halo-halo",
+            "cuisines-view/leche-flan",
+            "cuisines-view/puto",
+            "cuisines-view/suman"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Beverages",
+          "items": [
+            "cuisines-view/buko-juice",
+            "cuisines-view/calamansi-juice"
           ]
         }
       ]
@@ -147,14 +147,6 @@ const sidebars: SidebarsConfig = {
       "type": "category",
       "label": "🇹🇭 Thai Cuisine",
       "items": [
-        {
-          "type": "category",
-          "label": "Chinese-Thai Specialties",
-          "items": [
-            "cuisines-view/birds-nest-soup",
-            "cuisines-view/ginger-tea-soy-curd"
-          ]
-        },
         {
           "type": "category",
           "label": "Curries",
@@ -166,41 +158,11 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
-          "label": "Desserts",
-          "items": [
-            "cuisines-view/khanom-bueang",
-            "cuisines-view/khanom-krok",
-            "cuisines-view/khanom-tokyo",
-            "cuisines-view/khao-niao-mamuang"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Grilled & BBQ",
-          "items": [
-            "cuisines-view/gai-yang",
-            "cuisines-view/moo-yang",
-            "cuisines-view/pla-pao",
-            "cuisines-view/satay"
-          ]
-        },
-        {
-          "type": "category",
           "label": "Noodles",
           "items": [
             "cuisines-view/khao-soi",
             "cuisines-view/pad-see-ew",
             "cuisines-view/pad-thai"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Rice Dishes",
-          "items": [
-            "cuisines-view/khao-chae",
-            "cuisines-view/khao-kha-moo",
-            "cuisines-view/khao-man-gai",
-            "cuisines-view/khao-pad"
           ]
         },
         {
@@ -223,11 +185,41 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
+          "label": "Rice Dishes",
+          "items": [
+            "cuisines-view/khao-chae",
+            "cuisines-view/khao-kha-moo",
+            "cuisines-view/khao-man-gai",
+            "cuisines-view/khao-pad"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Grilled & BBQ",
+          "items": [
+            "cuisines-view/gai-yang",
+            "cuisines-view/moo-yang",
+            "cuisines-view/pla-pao",
+            "cuisines-view/satay"
+          ]
+        },
+        {
+          "type": "category",
           "label": "Stir-Fried Dishes",
           "items": [
             "cuisines-view/cashew-chicken",
             "cuisines-view/pad-krapow",
             "cuisines-view/pad-prik-king"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Desserts",
+          "items": [
+            "cuisines-view/khanom-bueang",
+            "cuisines-view/khanom-krok",
+            "cuisines-view/khanom-tokyo",
+            "cuisines-view/khao-niao-mamuang"
           ]
         },
         {
@@ -242,127 +234,13 @@ const sidebars: SidebarsConfig = {
             "cuisines-view/sai-ua",
             "cuisines-view/tod-mun-pla"
           ]
-        }
-      ]
-    },
-    {
-      "type": "category",
-      "label": "🇺🇿 Uzbek Cuisine",
-      "items": [
-        {
-          "type": "category",
-          "label": "Beverages",
-          "items": [
-            "food/ayran",
-            "food/bodom-sharbat",
-            "food/kok-choy",
-            "food/qahva",
-            "food/qora-choy"
-          ]
         },
         {
           "type": "category",
-          "label": "Breads & Pastries",
+          "label": "Chinese-Thai Specialties",
           "items": [
-            "food/katlama",
-            "food/non",
-            "food/patir-non",
-            "food/samarkand-non",
-            "food/somsa",
-            "food/somsa-jigar",
-            "food/somsa-qovoq"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Desserts & Sweets",
-          "items": [
-            "food/chak-chak",
-            "food/halva",
-            "food/navat",
-            "food/paklava",
-            "food/qovun",
-            "food/sumalak"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Dumplings",
-          "items": [
-            "food/chuchvara",
-            "food/manti",
-            "food/qovurma-manti",
-            "food/tukhum-barak"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Grilled & Kebabs",
-          "items": [
-            "food/dumba",
-            "food/jigar-kabob",
-            "food/lyulya-kabob",
-            "food/shashlik",
-            "food/tandir-kabob"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Noodles",
-          "items": [
-            "food/lagman",
-            "food/lagman-shorva",
-            "food/norin",
-            "food/shivit-oshi"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Rice Dishes & Plov",
-          "items": [
-            "food/oshi-nahor",
-            "food/plov",
-            "food/samarkand-plov",
-            "food/shah-plov",
-            "food/tashkent-plov"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Salads",
-          "items": [
-            "food/achichuk",
-            "food/tashkent-salad"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Soups",
-          "items": [
-            "food/chuchvara-shorva",
-            "food/moshkichiri",
-            "food/nohat-shurak",
-            "food/shurpa"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Specialty Dishes",
-          "items": [
-            "food/hasip",
-            "food/jiz",
-            "food/kazy",
-            "food/noxat",
-            "food/qazi",
-            "food/qosh-tili"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Stews & Braised",
-          "items": [
-            "food/dimlama",
-            "food/qovurma"
+            "cuisines-view/birds-nest-soup",
+            "cuisines-view/ginger-tea-soy-curd"
           ]
         }
       ]
@@ -371,27 +249,6 @@ const sidebars: SidebarsConfig = {
       "type": "category",
       "label": "🇻🇳 Vietnamese Cuisine",
       "items": [
-        {
-          "type": "category",
-          "label": "Bánh Mì & Sandwiches",
-          "items": [
-            "cuisines-view/banh-mi"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Beverages",
-          "items": [
-            "cuisines-view/ca-phe-sua-da"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Rice Dishes",
-          "items": [
-            "cuisines-view/com-tam"
-          ]
-        },
         {
           "type": "category",
           "label": "Soups & Broths",
@@ -406,10 +263,153 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "category",
+          "label": "Rice Dishes",
+          "items": [
+            "cuisines-view/com-tam"
+          ]
+        },
+        {
+          "type": "category",
           "label": "Spring Rolls & Wraps",
           "items": [
             "cuisines-view/cha-gio",
             "cuisines-view/goi-cuon"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Bánh Mì & Sandwiches",
+          "items": [
+            "cuisines-view/banh-mi"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Beverages",
+          "items": [
+            "cuisines-view/ca-phe-sua-da"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "🇺🇿 Uzbek Cuisine",
+      "items": [
+        {
+          "type": "category",
+          "label": "Rice Dishes & Plov",
+          "items": [
+            "food/plov",
+            "food/tashkent-plov",
+            "food/samarkand-plov",
+            "food/shah-plov",
+            "food/oshi-nahor"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Breads & Pastries",
+          "items": [
+            "food/non",
+            "food/patir-non",
+            "food/samarkand-non",
+            "food/katlama",
+            "food/somsa",
+            "food/somsa-qovoq",
+            "food/somsa-jigar"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Noodles",
+          "items": [
+            "food/lagman",
+            "food/lagman-shorva",
+            "food/norin",
+            "food/shivit-oshi"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Dumplings",
+          "items": [
+            "food/manti",
+            "food/chuchvara",
+            "food/qovurma-manti",
+            "food/tukhum-barak"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Soups",
+          "items": [
+            "food/shurpa",
+            "food/chuchvara-shorva",
+            "food/moshkichiri",
+            "food/nohat-shurak"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Grilled & Kebabs",
+          "items": [
+            "food/shashlik",
+            "food/lyulya-kabob",
+            "food/jigar-kabob",
+            "food/dumba",
+            "food/tandir-kabob"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Stews & Braised",
+          "items": [
+            "food/dimlama",
+            "food/qovurma"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Salads",
+          "items": [
+            "food/achichuk",
+            "food/tashkent-salad"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Specialty Dishes",
+          "items": [
+            "food/hasip",
+            "food/qazi",
+            "food/kazy",
+            "food/jiz",
+            "food/qosh-tili",
+            "food/noxat"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Desserts & Sweets",
+          "items": [
+            "food/paklava",
+            "food/halva",
+            "food/navat",
+            "food/sumalak",
+            "food/chak-chak",
+            "food/qovun"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Beverages",
+          "items": [
+            "food/kok-choy",
+            "food/qora-choy",
+            "food/qahva",
+            "food/ayran",
+            "food/bodom-sharbat"
           ]
         }
       ]
@@ -566,57 +566,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       "type": "category",
-      "label": "🇺🇿 Uzbekistan",
-      "items": [
-        {
-          "type": "category",
-          "label": "National Dishes (All Regions)",
-          "items": [
-            "food/achichuk",
-            "food/chuchvara",
-            "food/dimlama",
-            "food/dumba",
-            "food/halva",
-            "food/hasip",
-            "food/kok-choy",
-            "food/lyulya-kabob",
-            "food/norin",
-            "food/qazi",
-            "food/qora-choy",
-            "food/qovurma",
-            "food/sumalak"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Samarkand (Silk Road City)",
-          "items": [
-            "food/navat",
-            "food/paklava",
-            "food/samarkand-non",
-            "food/samarkand-plov"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Tashkent (Capital)",
-          "items": [
-            "food/ayran",
-            "food/lagman",
-            "food/manti",
-            "food/non",
-            "food/plov",
-            "food/shashlik",
-            "food/shurpa",
-            "food/somsa",
-            "food/tashkent-plov",
-            "food/tashkent-salad"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "category",
       "label": "🇻🇳 Vietnam",
       "items": [
         {
@@ -655,8 +604,58 @@ const sidebars: SidebarsConfig = {
           ]
         }
       ]
+    },
+    {
+      "type": "category",
+      "label": "🇺🇿 Uzbekistan",
+      "items": [
+        {
+          "type": "category",
+          "label": "Tashkent (Capital)",
+          "items": [
+            "food/plov",
+            "food/tashkent-plov",
+            "food/somsa",
+            "food/shashlik",
+            "food/lagman",
+            "food/manti",
+            "food/shurpa",
+            "food/non",
+            "food/tashkent-salad",
+            "food/ayran"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Samarkand (Silk Road City)",
+          "items": [
+            "food/samarkand-plov",
+            "food/samarkand-non",
+            "food/paklava",
+            "food/navat"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "National Dishes (All Regions)",
+          "items": [
+            "food/chuchvara",
+            "food/norin",
+            "food/dimlama",
+            "food/qovurma",
+            "food/lyulya-kabob",
+            "food/dumba",
+            "food/hasip",
+            "food/qazi",
+            "food/achichuk",
+            "food/halva",
+            "food/sumalak",
+            "food/kok-choy",
+            "food/qora-choy"
+          ]
+        }
+      ]
     }
   ]
 };
-
 export default sidebars;
