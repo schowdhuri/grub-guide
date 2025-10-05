@@ -693,17 +693,6 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "category",
-          "label": "Da Nang & Central Coast",
-          "link": {
-            "type": "doc",
-            "id": "locations/cities/vietnam-da-nang"
-          },
-          "items": [
-            "locations-view/mi-quang"
-          ]
-        },
-        {
-          "type": "category",
           "label": "Hanoi & Northern Vietnam",
           "link": {
             "type": "doc",
@@ -714,6 +703,18 @@ const sidebars: SidebarsConfig = {
             "locations-view/ca-phe-sua-da",
             "locations-view/pho-bo",
             "locations-view/pho-ga"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Central Vietnam (Huế & Da Nang)",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/vietnam-hue"
+          },
+          "items": [
+            "locations-view/bun-bo-hue",
+            "locations-view/mi-quang"
           ]
         },
         {
@@ -729,17 +730,6 @@ const sidebars: SidebarsConfig = {
             "locations-view/com-tam",
             "locations-view/goi-cuon",
             "locations-view/hu-tieu"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Hue & Central Vietnam",
-          "link": {
-            "type": "doc",
-            "id": "locations/cities/vietnam-hue"
-          },
-          "items": [
-            "locations-view/bun-bo-hue"
           ]
         }
       ]
