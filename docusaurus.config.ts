@@ -1,6 +1,10 @@
 import type { Config } from "@docusaurus/types";
 import type { Options as ClassicPresetOptions } from "@docusaurus/preset-classic";
 import { themes as prismThemes } from "prism-react-renderer";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 const config: Config = {
   title: "Global Grub Guide",
@@ -89,6 +93,10 @@ const config: Config = {
       } satisfies ClassicPresetOptions,
     ],
   ],
+
+  customFields: {
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || '',
+  },
 
   themeConfig: {
     // Replace with your project's social card

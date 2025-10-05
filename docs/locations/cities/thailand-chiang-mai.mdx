@@ -5,6 +5,9 @@ description: Discover Chiang Mai's Northern Lanna cuisine - distinctive flavors 
 displayed_sidebar: locationSidebar
 ---
 
+import CityPlacesWidget from '@site/src/components/CityPlacesWidget';
+import { chiangmaiPlaces } from '@site/src/data/chiangMaiPlaces';
+
 # Chiang Mai
 
 Chiang Mai, the cultural heart of Northern Thailand, offers a cuisine distinct from Bangkok's more familiar dishes. The cooler mountain climate, Burmese and Shan influences, and the prominence of sticky rice over jasmine rice create a unique culinary identity.
@@ -22,3 +25,12 @@ Chiang Mai, the cultural heart of Northern Thailand, offers a cuisine distinct f
 Khao soi (curry noodle soup), nam prik noom (green chili dip), and sai ua are Northern specialties rarely found authentic elsewhere in Thailand.
 
 Explore Chiang Mai's distinctive Northern cuisine in the sidebar.
+
+## My Saved Places
+
+<CityPlacesWidget
+  places={chiangmaiPlaces}
+  cityName="Chiang Mai"
+  defaultCenter={{ lat: 18.7883, lng: 98.9853 }}
+  defaultZoom={13}
+/>
