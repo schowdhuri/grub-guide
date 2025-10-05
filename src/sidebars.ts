@@ -247,53 +247,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       "type": "category",
-      "label": "🇻🇳 Vietnamese Cuisine",
-      "items": [
-        {
-          "type": "category",
-          "label": "Soups & Broths",
-          "items": [
-            "cuisines-view/bun-bo-hue",
-            "cuisines-view/bun-cha",
-            "cuisines-view/hu-tieu",
-            "cuisines-view/mi-quang",
-            "cuisines-view/pho-bo",
-            "cuisines-view/pho-ga"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Rice Dishes",
-          "items": [
-            "cuisines-view/com-tam"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Spring Rolls & Wraps",
-          "items": [
-            "cuisines-view/cha-gio",
-            "cuisines-view/goi-cuon"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Bánh Mì & Sandwiches",
-          "items": [
-            "cuisines-view/banh-mi"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Beverages",
-          "items": [
-            "cuisines-view/ca-phe-sua-da"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "category",
       "label": "🇺🇿 Uzbek Cuisine",
       "items": [
         {
@@ -410,6 +363,53 @@ const sidebars: SidebarsConfig = {
             "food/qahva",
             "food/ayran",
             "food/bodom-sharbat"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "🇻🇳 Vietnamese Cuisine",
+      "items": [
+        {
+          "type": "category",
+          "label": "Soups & Broths",
+          "items": [
+            "cuisines-view/bun-bo-hue",
+            "cuisines-view/bun-cha",
+            "cuisines-view/hu-tieu",
+            "cuisines-view/mi-quang",
+            "cuisines-view/pho-bo",
+            "cuisines-view/pho-ga"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Rice Dishes",
+          "items": [
+            "cuisines-view/com-tam"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Spring Rolls & Wraps",
+          "items": [
+            "cuisines-view/cha-gio",
+            "cuisines-view/goi-cuon"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Bánh Mì & Sandwiches",
+          "items": [
+            "cuisines-view/banh-mi"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Beverages",
+          "items": [
+            "cuisines-view/ca-phe-sua-da"
           ]
         }
       ]
@@ -566,47 +566,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       "type": "category",
-      "label": "🇻🇳 Vietnam",
-      "items": [
-        {
-          "type": "category",
-          "label": "Da Nang & Central Coast",
-          "items": [
-            "locations-view/mi-quang"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Hanoi & Northern Vietnam",
-          "items": [
-            "locations-view/bun-cha",
-            "locations-view/ca-phe-sua-da",
-            "locations-view/pho-bo",
-            "locations-view/pho-ga"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Ho Chi Minh City & Southern Vietnam",
-          "items": [
-            "locations-view/banh-mi",
-            "locations-view/cha-gio",
-            "locations-view/com-tam",
-            "locations-view/goi-cuon",
-            "locations-view/hu-tieu"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Hue & Central Vietnam",
-          "items": [
-            "locations-view/bun-bo-hue"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "category",
       "label": "🇺🇿 Uzbekistan",
       "items": [
         {
@@ -652,6 +611,47 @@ const sidebars: SidebarsConfig = {
             "food/sumalak",
             "food/kok-choy",
             "food/qora-choy"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "🇻🇳 Vietnam",
+      "items": [
+        {
+          "type": "category",
+          "label": "Da Nang & Central Coast",
+          "items": [
+            "locations-view/mi-quang"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Hanoi & Northern Vietnam",
+          "items": [
+            "locations-view/bun-cha",
+            "locations-view/ca-phe-sua-da",
+            "locations-view/pho-bo",
+            "locations-view/pho-ga"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Ho Chi Minh City & Southern Vietnam",
+          "items": [
+            "locations-view/banh-mi",
+            "locations-view/cha-gio",
+            "locations-view/com-tam",
+            "locations-view/goi-cuon",
+            "locations-view/hu-tieu"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Hue & Central Vietnam",
+          "items": [
+            "locations-view/bun-bo-hue"
           ]
         }
       ]

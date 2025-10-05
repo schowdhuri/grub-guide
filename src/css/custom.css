@@ -221,8 +221,12 @@
 
 /* Mobile sidebar improvements */
 @media (max-width: 996px) {
+  /* Ensure mobile sidebar is scrollable with enough padding */
+  .navbar-sidebar__items {
+    padding-bottom: 2rem;
+  }
+
   /* Hide search in mobile sidebar - try multiple selectors */
-  .navbar-sidebar__items .menu__list-item:last-child,
   .navbar-sidebar .menu__list .menu__list-item:has(.search-navbar-wrapper),
   .navbar-sidebar .menu__list-item [class*="searchNavbarItem"],
   .navbar-sidebar .search-navbar-wrapper {
