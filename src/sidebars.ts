@@ -253,24 +253,24 @@ const sidebars: SidebarsConfig = {
           "type": "category",
           "label": "Rice Dishes & Plov",
           "items": [
+            "food/oshi-nahor",
             "food/plov",
-            "food/tashkent-plov",
             "food/samarkand-plov",
             "food/shah-plov",
-            "food/oshi-nahor"
+            "food/tashkent-plov"
           ]
         },
         {
           "type": "category",
           "label": "Breads & Pastries",
           "items": [
+            "food/katlama",
             "food/non",
             "food/patir-non",
             "food/samarkand-non",
-            "food/katlama",
             "food/somsa",
-            "food/somsa-qovoq",
-            "food/somsa-jigar"
+            "food/somsa-jigar",
+            "food/somsa-qovoq"
           ]
         },
         {
@@ -287,8 +287,8 @@ const sidebars: SidebarsConfig = {
           "type": "category",
           "label": "Dumplings",
           "items": [
-            "food/manti",
             "food/chuchvara",
+            "food/manti",
             "food/qovurma-manti",
             "food/tukhum-barak"
           ]
@@ -297,20 +297,20 @@ const sidebars: SidebarsConfig = {
           "type": "category",
           "label": "Soups",
           "items": [
-            "food/shurpa",
             "food/chuchvara-shorva",
             "food/moshkichiri",
-            "food/nohat-shurak"
+            "food/nohat-shurak",
+            "food/shurpa"
           ]
         },
         {
           "type": "category",
           "label": "Grilled & Kebabs",
           "items": [
-            "food/shashlik",
-            "food/lyulya-kabob",
-            "food/jigar-kabob",
             "food/dumba",
+            "food/jigar-kabob",
+            "food/lyulya-kabob",
+            "food/shashlik",
             "food/tandir-kabob"
           ]
         },
@@ -335,34 +335,34 @@ const sidebars: SidebarsConfig = {
           "label": "Specialty Dishes",
           "items": [
             "food/hasip",
-            "food/qazi",
-            "food/kazy",
             "food/jiz",
-            "food/qosh-tili",
-            "food/noxat"
+            "food/kazy",
+            "food/noxat",
+            "food/qazi",
+            "food/qosh-tili"
           ]
         },
         {
           "type": "category",
           "label": "Desserts & Sweets",
           "items": [
-            "food/paklava",
+            "food/chak-chak",
             "food/halva",
             "food/navat",
-            "food/sumalak",
-            "food/chak-chak",
-            "food/qovun"
+            "food/paklava",
+            "food/qovun",
+            "food/sumalak"
           ]
         },
         {
           "type": "category",
           "label": "Beverages",
           "items": [
-            "food/kok-choy",
-            "food/qora-choy",
-            "food/qahva",
             "food/ayran",
-            "food/bodom-sharbat"
+            "food/bodom-sharbat",
+            "food/kok-choy",
+            "food/qahva",
+            "food/qora-choy"
           ]
         }
       ]
@@ -572,45 +572,45 @@ const sidebars: SidebarsConfig = {
           "type": "category",
           "label": "Tashkent (Capital)",
           "items": [
-            "food/plov",
-            "food/tashkent-plov",
-            "food/somsa",
-            "food/shashlik",
+            "food/ayran",
             "food/lagman",
             "food/manti",
-            "food/shurpa",
             "food/non",
-            "food/tashkent-salad",
-            "food/ayran"
+            "food/plov",
+            "food/shashlik",
+            "food/shurpa",
+            "food/somsa",
+            "food/tashkent-plov",
+            "food/tashkent-salad"
           ]
         },
         {
           "type": "category",
           "label": "Samarkand (Silk Road City)",
           "items": [
-            "food/samarkand-plov",
-            "food/samarkand-non",
+            "food/navat",
             "food/paklava",
-            "food/navat"
+            "food/samarkand-non",
+            "food/samarkand-plov"
           ]
         },
         {
           "type": "category",
           "label": "National Dishes (All Regions)",
           "items": [
-            "food/chuchvara",
-            "food/norin",
-            "food/dimlama",
-            "food/qovurma",
-            "food/lyulya-kabob",
-            "food/dumba",
-            "food/hasip",
-            "food/qazi",
             "food/achichuk",
+            "food/chuchvara",
+            "food/dimlama",
+            "food/dumba",
             "food/halva",
-            "food/sumalak",
+            "food/hasip",
             "food/kok-choy",
-            "food/qora-choy"
+            "food/lyulya-kabob",
+            "food/norin",
+            "food/qazi",
+            "food/qora-choy",
+            "food/qovurma",
+            "food/sumalak"
           ]
         }
       ]
