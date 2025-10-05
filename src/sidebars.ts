@@ -28,6 +28,10 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇵🇭 Filipino Cuisine",
+      "link": {
+        "type": "doc",
+        "id": "cuisines/filipino"
+      },
       "items": [
         {
           "type": "category",
@@ -146,6 +150,10 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇹🇭 Thai Cuisine",
+      "link": {
+        "type": "doc",
+        "id": "cuisines/thai"
+      },
       "items": [
         {
           "type": "category",
@@ -248,6 +256,10 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇺🇿 Uzbek Cuisine",
+      "link": {
+        "type": "doc",
+        "id": "cuisines/uzbek"
+      },
       "items": [
         {
           "type": "category",
@@ -370,6 +382,10 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇻🇳 Vietnamese Cuisine",
+      "link": {
+        "type": "doc",
+        "id": "cuisines/vietnamese"
+      },
       "items": [
         {
           "type": "category",
@@ -419,10 +435,18 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇵🇭 Philippines",
+      "link": {
+        "type": "doc",
+        "id": "locations/countries/philippines"
+      },
       "items": [
         {
           "type": "category",
           "label": "Bicol Region",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/philippines-bicol"
+          },
           "items": [
             "locations-view/bicol-express",
             "locations-view/dinuguan-bicol-style",
@@ -433,6 +457,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Manila & National Capital Region",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/philippines-manila"
+          },
           "items": [
             "locations-view/adobo",
             "locations-view/arroz-caldo",
@@ -473,6 +501,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Mindanao",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/philippines-mindanao"
+          },
           "items": [
             "locations-view/balbacua"
           ]
@@ -488,6 +520,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Visayas (Cebu, Iloilo, Bacolod)",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/philippines-visayas"
+          },
           "items": [
             "locations-view/batchoy",
             "locations-view/humba",
@@ -501,10 +537,18 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇹🇭 Thailand",
+      "link": {
+        "type": "doc",
+        "id": "locations/countries/thailand"
+      },
       "items": [
         {
           "type": "category",
           "label": "Bangkok",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/thailand-bangkok"
+          },
           "items": [
             "locations-view/birds-nest-soup",
             "locations-view/boat-noodles",
@@ -537,6 +581,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Chiang Mai",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/thailand-chiang-mai"
+          },
           "items": [
             "locations-view/khanom-tokyo",
             "locations-view/khao-soi",
@@ -547,6 +595,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Isaan Region",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/thailand-isaan"
+          },
           "items": [
             "locations-view/gai-ping",
             "locations-view/jim-jum",
@@ -558,6 +610,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Southern Thailand",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/thailand-southern"
+          },
           "items": [
             "locations-view/pla-pao"
           ]
@@ -567,10 +623,18 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇺🇿 Uzbekistan",
+      "link": {
+        "type": "doc",
+        "id": "locations/countries/uzbekistan"
+      },
       "items": [
         {
           "type": "category",
           "label": "Tashkent (Capital)",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/uzbekistan-tashkent"
+          },
           "items": [
             "food/ayran",
             "food/lagman",
@@ -587,6 +651,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Samarkand (Silk Road City)",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/uzbekistan-samarkand"
+          },
           "items": [
             "food/navat",
             "food/paklava",
@@ -618,10 +686,18 @@ const sidebars: SidebarsConfig = {
     {
       "type": "category",
       "label": "🇻🇳 Vietnam",
+      "link": {
+        "type": "doc",
+        "id": "locations/countries/vietnam"
+      },
       "items": [
         {
           "type": "category",
           "label": "Da Nang & Central Coast",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/vietnam-da-nang"
+          },
           "items": [
             "locations-view/mi-quang"
           ]
@@ -629,6 +705,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Hanoi & Northern Vietnam",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/vietnam-hanoi"
+          },
           "items": [
             "locations-view/bun-cha",
             "locations-view/ca-phe-sua-da",
@@ -639,6 +719,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Ho Chi Minh City & Southern Vietnam",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/vietnam-hcmc"
+          },
           "items": [
             "locations-view/banh-mi",
             "locations-view/cha-gio",
@@ -650,6 +734,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "category",
           "label": "Hue & Central Vietnam",
+          "link": {
+            "type": "doc",
+            "id": "locations/cities/vietnam-hue"
+          },
           "items": [
             "locations-view/bun-bo-hue"
           ]
