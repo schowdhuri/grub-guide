@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { PlaceData } from '@site/src/types/places';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -15,6 +15,7 @@ interface InteractiveMapProps {
   hoveredPlaceId: string | null;
   onMarkerClick: (placeId: string) => void;
   onMarkerHover: (placeId: string | null) => void;
+  onPlaceSelect: (placeId: string) => void;
 }
 
 const mapContainerStyle = {
@@ -39,10 +40,10 @@ export default function InteractiveMap({
   hoveredPlaceId,
   onMarkerClick,
   onMarkerHover,
+  onPlaceSelect,
 }: InteractiveMapProps): React.JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [activeInfoWindow, setActiveInfoWindow] = useState<string | null>(null);
 
   const apiKey = (siteConfig.customFields?.googleMapsApiKey as string) || '';
 
@@ -66,8 +67,8 @@ export default function InteractiveMap({
   }, []);
 
   const handleMarkerClick = (placeId: string) => {
-    setActiveInfoWindow(placeId);
     onMarkerClick(placeId);
+    onPlaceSelect(placeId);
   };
 
   const getMarkerIcon = (placeId: string) => {
@@ -80,13 +81,15 @@ export default function InteractiveMap({
     const isHovered = placeId === hoveredPlaceId;
 
     if (isSelected) {
+      // Pin marker for selected place
       return {
-        path: google.maps.SymbolPath.CIRCLE,
+        path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
         fillColor: '#ff6b35',
         fillOpacity: 1,
         strokeColor: '#ffffff',
-        strokeWeight: 3,
-        scale: 12,
+        strokeWeight: 2,
+        scale: 1.8,
+        anchor: new google.maps.Point(12, 22),
       };
     }
 
@@ -129,40 +132,7 @@ export default function InteractiveMap({
             onMouseOver={() => onMarkerHover(place.id)}
             onMouseOut={() => onMarkerHover(null)}
             icon={getMarkerIcon(place.id)}
-          >
-            {activeInfoWindow === place.id && (
-              <InfoWindow onCloseClick={() => setActiveInfoWindow(null)}>
-                <div style={{ maxWidth: '200px' }}>
-                  <h4 style={{ margin: '0 0 8px 0', fontSize: '14px' }}>
-                    {place.name}
-                  </h4>
-                  {place.nameLocal && (
-                    <p style={{ margin: '0 0 4px 0', fontSize: '12px', color: '#666' }}>
-                      {place.nameLocal}
-                    </p>
-                  )}
-                  {place.category && (
-                    <p style={{ margin: '4px 0', fontSize: '12px' }}>
-                      <strong>Category:</strong> {place.category}
-                    </p>
-                  )}
-                  {place.myRating && (
-                    <p style={{ margin: '4px 0', fontSize: '12px' }}>
-                      <strong>Rating:</strong> {'⭐'.repeat(place.myRating)}
-                    </p>
-                  )}
-                  <a
-                    href={place.googleMapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: '12px' }}
-                  >
-                    View on Google Maps
-                  </a>
-                </div>
-              </InfoWindow>
-            )}
-          </Marker>
+          />
         ))}
       </GoogleMap>
     </LoadScript>

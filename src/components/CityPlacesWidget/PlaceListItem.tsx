@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { PlaceData } from '@site/src/types/places';
+import PlaceDetailsCard from './PlaceDetailsCard';
 
 interface PlaceListItemProps {
   place: PlaceData;
@@ -54,45 +55,23 @@ export default function PlaceListItem({
         )}
       </div>
 
-      {isSelected && (
-        <div className="place-details">
-          {place.mustTry && place.mustTry.length > 0 && (
-            <div className="place-must-try">
-              <strong>Must Try:</strong>
-              <ul>
-                {place.mustTry.map((dish, index) => (
-                  <li key={index}>{dish}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {place.notes && (
-            <div className="place-notes">
-              <strong>Notes:</strong>
-              <p>{place.notes}</p>
-            </div>
-          )}
-
-          {place.visitDate && (
-            <div className="place-visit-date">
-              <strong>Visited:</strong> {place.visitDate}
-            </div>
-          )}
-
-          <div className="place-actions">
-            <a
-              href={place.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="place-link"
-              onClick={(e) => e.stopPropagation()}
-            >
-              View on Google Maps →
-            </a>
-          </div>
-        </div>
-      )}
+      {/* Chevron indicator */}
+      <svg
+        className="place-chevron"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.5 5L12.5 10L7.5 15"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </div>
   );
 }
