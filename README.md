@@ -223,6 +223,33 @@ _Pronunciation: "phonetic guide"_
 3. Search index updates with `npm run generate-search-index`
 4. TypeScript validation with `npm run typecheck`
 
+### Environment Variables & Deployment
+
+**Google Maps API Key Configuration:**
+
+The site uses Google Maps JavaScript API, which requires proper setup for production:
+
+1. **Local Development:**
+   - Create `.env` file in project root
+   - Add: `GOOGLE_MAPS_API_KEY=your_api_key_here`
+   - Key is loaded via `dotenv` in `docusaurus.config.ts`
+
+2. **GitHub Actions Deployment:**
+   - Add secret in repo settings: [Settings → Secrets → Actions](https://github.com/schowdhuri/grub-guide/settings/secrets/actions)
+   - Secret name: `GOOGLE_MAPS_API_KEY`
+   - The workflow (`.github/workflows/deploy.yml`) passes it during build
+   - API key is bundled at build-time into static site
+
+3. **Google Cloud Console Setup:**
+   - Go to [API Credentials](https://console.cloud.google.com/apis/credentials)
+   - Configure HTTP referrer restrictions for your API key:
+     - `food.subir.in/*`
+     - `https://food.subir.in/*`
+     - `*.food.subir.in/*`
+   - This prevents unauthorized use of your API key
+
+**Note:** The API key is bundled into the client-side JavaScript during build. For sensitive operations, consider using a backend proxy.
+
 ## 🔒 SEO & Protection
 
 **Current Status**: Indexing blocked (development phase)

@@ -8,7 +8,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "npm run generate-dual-views && npm-run-all --parallel start:watch start:docusaurus",
-    "start:docusaurus": "docusaurus start",
+    "start:docusaurus": "docusaurus start --host 0.0.0.0",
     "start:watch": "chokidar 'docs/food/**/*.mdx' -c 'npm run generate-dual-views'",
     "build": "npm run generate-dual-views && npm run generate-search-index && docusaurus build",
     "build:ci": "npm run generate-dual-views && npm run generate-search-index && docusaurus build",
