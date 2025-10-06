@@ -1746,22 +1746,6 @@ export const searchIndex: SearchItem[] = [
     "pronunciation": "nah-VAHT"
   },
   {
-    "title": "Nohat Shurak",
-    "url": "/food/nohat-shurak",
-    "tags": [
-      "uzbekistan",
-      "national",
-      "soup",
-      "chickpeas",
-      "lamb",
-      "hearty"
-    ],
-    "description": "Chickpea Soup - Traditional Uzbek dish from Central Asia",
-    "content": "nohat shurak pronunciation: \"noh-haht shoo-rahk\" chickpea soup ⭐ my rating: [your rating]/5 📅 created: 04 october, 2025 🔄 updated: 04 october, 2025 🌶️ spice level: 2/5 traditional uzbek cuisine silk road --- traditional uzbek dish nohat shurak (chickpea soup) is a beloved dish in uzbek cuisine, representing the rich culinary traditions of central asia along the historic silk road. my experience [personal experience placeholder - to be filled with your specific memories and impressions] where i've tried it recipe links --- nohat shurak represents the authentic flavors and traditions of uzbek culinary heritage, passed down through generations along the silk road.",
-    "country": "uzbekistan",
-    "pronunciation": "noh-HAHT shoo-RAHK"
-  },
-  {
     "title": "Non",
     "url": "/food/non",
     "tags": [

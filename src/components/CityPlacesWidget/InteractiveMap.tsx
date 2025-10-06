@@ -12,6 +12,7 @@ import {
   selectedPlaceIdAtom,
   hoveredPlaceIdAtom,
   isMapLoadedAtom,
+  mapBoundsAtom,
 } from "./store";
 
 interface InteractiveMapProps {
@@ -56,10 +57,12 @@ export default function InteractiveMap({
   const hoveredPlaceId = useAtomValue(hoveredPlaceIdAtom);
   const setHoveredPlaceId = useSetAtom(hoveredPlaceIdAtom);
   const setIsMapLoaded = useSetAtom(isMapLoadedAtom);
+  const setMapBounds = useSetAtom(mapBoundsAtom);
   const { siteConfig } = useDocusaurusContext();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
   const clustererRef = useRef<MarkerClusterer | null>(null);
+  const boundsUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const apiKey = (siteConfig.customFields?.googleMapsApiKey as string) || "";
 
@@ -97,12 +100,40 @@ export default function InteractiveMap({
       clustererRef.current.clearMarkers();
       clustererRef.current = null;
     }
+    // Clean up timeout
+    if (boundsUpdateTimeoutRef.current) {
+      clearTimeout(boundsUpdateTimeoutRef.current);
+    }
     setMap(null);
   }, []);
 
+  // Update bounds with debouncing to avoid interfering with dragging
+  const handleBoundsChanged = useCallback(() => {
+    if (!map) return;
+
+    // Clear existing timeout
+    if (boundsUpdateTimeoutRef.current) {
+      clearTimeout(boundsUpdateTimeoutRef.current);
+    }
+
+    // Debounce bounds update by 300ms to wait until dragging stops
+    boundsUpdateTimeoutRef.current = setTimeout(() => {
+      const bounds = map.getBounds();
+      if (bounds) {
+        setMapBounds(bounds);
+      }
+    }, 300);
+  }, [map, setMapBounds]);
+
   const handleMarkerClick = (placeId: string) => {
     onMarkerClick(placeId);
-    onPlaceSelect(placeId);
+
+    // In fullscreen mode (mobile), only select the marker to highlight the card
+    // The card click will open the detail view
+    // In desktop mode, open the detail view immediately
+    if (!isFullscreen) {
+      onPlaceSelect(placeId);
+    }
   };
 
   const getMarkerIcon = (placeId: string) => {
@@ -173,6 +204,7 @@ export default function InteractiveMap({
       options={getMapOptions(isFullscreen)}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      onBoundsChanged={handleBoundsChanged}
     >
       {map &&
         places.map((place) => (

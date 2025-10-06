@@ -292,16 +292,6 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Soups",
-          items: [
-            "food/chuchvara-shorva",
-            "food/moshkichiri",
-            "food/nohat-shurak",
-            "food/shurpa",
-          ],
-        },
-        {
-          type: "category",
           label: "Grilled & Kebabs",
           items: [
             "food/dumba",

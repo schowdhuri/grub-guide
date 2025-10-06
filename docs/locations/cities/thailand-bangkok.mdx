@@ -5,6 +5,9 @@ description: Experience Bangkok's legendary street food scene and royal Thai cui
 displayed_sidebar: locationSidebar
 ---
 
+import CityPlacesWidget from "@site/src/components/CityPlacesWidget";
+import { bangkokPlaces } from "@site/src/data/bangkokPlaces";
+
 # Bangkok
 
 Bangkok is Thailand's culinary epicenter - a city where ancient royal recipes meet innovative street food, and where regional dishes from across the country converge. The capital's food scene is legendary, from Michelin-starred restaurants to humble street carts that have been perfecting single dishes for generations.
@@ -25,3 +28,12 @@ As the former royal capital, Bangkok preserves refined palace cooking techniques
 - **River Culture**: Boat noodles and riverside dining
 
 Explore Bangkok's diverse dishes in the sidebar.
+
+## My Saved Places
+
+<CityPlacesWidget
+  places={bangkokPlaces}
+  cityName="Bangkok"
+  defaultCenter={{ lat: 13.7563, lng: 100.5018 }}
+  defaultZoom={12}
+/>

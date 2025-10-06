@@ -10,12 +10,11 @@ import React, { useEffect, useRef } from "react";
 import { useAtomValue } from "jotai";
 import { PlaceData } from "@site/src/types/places";
 import PlaceCard from "./PlaceCard";
-import { selectedPlaceIdAtom, mapCenterAtom } from "./store";
+import { selectedPlaceIdAtom, mapCenterAtom, mapBoundsAtom } from "./store";
 
 interface BottomToolbarProps {
   places: PlaceData[];
   onPlaceClick: (placeId: string) => void;
-  maxCards?: number;
 }
 
 /**
@@ -45,15 +44,25 @@ function calculateDistance(
 export default function BottomToolbar({
   places,
   onPlaceClick,
-  maxCards = 8,
 }: BottomToolbarProps): React.JSX.Element {
   // Get state from Jotai atoms
   const selectedPlaceId = useAtomValue(selectedPlaceIdAtom);
   const mapCenter = useAtomValue(mapCenterAtom);
+  const mapBounds = useAtomValue(mapBoundsAtom);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Calculate distances and sort by proximity to map center
+  // Filter places within viewport bounds, then sort by distance from center
   const placesWithDistance = places
+    .filter((place) => {
+      // If bounds not available yet, show all places
+      if (!mapBounds) return true;
+
+      // Check if place is within viewport bounds
+      return mapBounds.contains({
+        lat: place.coordinates.lat,
+        lng: place.coordinates.lng,
+      });
+    })
     .map((place) => ({
       ...place,
       distance: calculateDistance(
@@ -63,8 +72,7 @@ export default function BottomToolbar({
         place.coordinates.lng
       ),
     }))
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, maxCards); // Show only top N closest places
+    .sort((a, b) => a.distance - b.distance);
 
   // Auto-scroll to selected place when it changes
   useEffect(() => {

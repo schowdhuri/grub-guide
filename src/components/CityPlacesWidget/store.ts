@@ -27,3 +27,8 @@ export const mapCenterAtom = atom<{ lat: number; lng: number }>({
   lat: 0,
   lng: 0,
 });
+
+/**
+ * Current viewport bounds of the map
+ */
+export const mapBoundsAtom = atom<google.maps.LatLngBounds | null>(null);
