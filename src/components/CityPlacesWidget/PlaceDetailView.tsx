@@ -17,7 +17,7 @@ export default function PlaceDetailView({
 }: PlaceDetailViewProps): React.JSX.Element {
   return (
     <div className="place-detail-view">
-      {/* Header with back button */}
+      {/* Mobile-optimized header with back button and title */}
       <div className="detail-view-header">
         <button
           className="back-button"
@@ -39,16 +39,8 @@ export default function PlaceDetailView({
               strokeLinejoin="round"
             />
           </svg>
-          Back
         </button>
-      </div>
-
-      {/* Place title */}
-      <div className="detail-view-title">
-        <h2 className="detail-place-name">{place.name}</h2>
-        {place.nameLocal && (
-          <p className="detail-place-name-local">{place.nameLocal}</p>
-        )}
+        <h2 className="detail-header-title">{place.name}</h2>
       </div>
 
       {/* Scrollable content */}

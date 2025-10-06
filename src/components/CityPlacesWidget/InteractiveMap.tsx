@@ -2,10 +2,11 @@
  * InteractiveMap - Google Maps component with custom markers
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { PlaceData } from '@site/src/types/places';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import { PlaceData } from "@site/src/types/places";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 interface InteractiveMapProps {
   places: PlaceData[];
@@ -16,21 +17,26 @@ interface InteractiveMapProps {
   onMarkerClick: (placeId: string) => void;
   onMarkerHover: (placeId: string | null) => void;
   onPlaceSelect: (placeId: string) => void;
+  isFullscreen?: boolean;
+  enableClustering?: boolean;
+  onBoundsChange?: (center: { lat: number; lng: number }) => void;
 }
 
 const mapContainerStyle = {
-  width: '100%',
-  height: '100%',
-  minHeight: '500px',
+  width: "100%",
+  height: "100vh",
+  minHeight: "500px",
 };
 
-const mapOptions = {
-  disableDefaultUI: false,
-  zoomControl: true,
+const getMapOptions = (isFullscreen: boolean): google.maps.MapOptions => ({
+  disableDefaultUI: isFullscreen, // Hide all UI in fullscreen mode
+  zoomControl: !isFullscreen,
   streetViewControl: false,
   mapTypeControl: false,
-  fullscreenControl: true,
-};
+  fullscreenControl: false,
+  gestureHandling: "greedy", // Allow dragging with one finger
+  clickableIcons: false,
+});
 
 export default function InteractiveMap({
   places,
@@ -41,16 +47,25 @@ export default function InteractiveMap({
   onMarkerClick,
   onMarkerHover,
   onPlaceSelect,
+  isFullscreen = false,
+  enableClustering = false,
+  onBoundsChange,
 }: InteractiveMapProps): React.JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
+  const clustererRef = useRef<MarkerClusterer | null>(null);
 
-  const apiKey = (siteConfig.customFields?.googleMapsApiKey as string) || '';
+  const apiKey = (siteConfig.customFields?.googleMapsApiKey as string) || "";
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: apiKey,
+  });
 
   // Pan to selected place
   useEffect(() => {
     if (map && selectedPlaceId) {
-      const place = places.find(p => p.id === selectedPlaceId);
+      const place = places.find((p) => p.id === selectedPlaceId);
       if (place) {
         map.panTo(place.coordinates);
         map.setZoom(15);
@@ -63,8 +78,36 @@ export default function InteractiveMap({
   }, []);
 
   const onUnmount = useCallback(() => {
+    // Clean up clusterer
+    if (clustererRef.current) {
+      clustererRef.current.clearMarkers();
+      clustererRef.current = null;
+    }
     setMap(null);
   }, []);
+
+  // Report map center changes to parent (debounced to prevent infinite loops)
+  const handleCenterChanged = useCallback(() => {
+    if (!map || !onBoundsChange) return;
+
+    const newCenter = map.getCenter();
+    if (newCenter) {
+      const lat = newCenter.lat();
+      const lng = newCenter.lng();
+
+      // Only update if center has changed significantly (more than 0.001 degrees)
+      const currentCenter = map.getCenter();
+      if (currentCenter) {
+        const threshold = 0.001;
+        const latDiff = Math.abs(lat - center.lat);
+        const lngDiff = Math.abs(lng - center.lng);
+
+        if (latDiff > threshold || lngDiff > threshold) {
+          onBoundsChange({ lat, lng });
+        }
+      }
+    }
+  }, [map, onBoundsChange, center]);
 
   const handleMarkerClick = (placeId: string) => {
     onMarkerClick(placeId);
@@ -73,7 +116,7 @@ export default function InteractiveMap({
 
   const getMarkerIcon = (placeId: string) => {
     // Check if google maps is loaded
-    if (typeof google === 'undefined' || !google.maps) {
+    if (typeof google === "undefined" || !google.maps) {
       return undefined;
     }
 
@@ -83,10 +126,10 @@ export default function InteractiveMap({
     if (isSelected) {
       // Pin marker for selected place
       return {
-        path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-        fillColor: '#ff6b35',
+        path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
+        fillColor: "#ff6b35",
         fillOpacity: 1,
-        strokeColor: '#ffffff',
+        strokeColor: "#ffffff",
         strokeWeight: 2,
         scale: 1.8,
         anchor: new google.maps.Point(12, 22),
@@ -96,9 +139,9 @@ export default function InteractiveMap({
     if (isHovered) {
       return {
         path: google.maps.SymbolPath.CIRCLE,
-        fillColor: '#ff8c61',
+        fillColor: "#ff8c61",
         fillOpacity: 0.9,
-        strokeColor: '#ffffff',
+        strokeColor: "#ffffff",
         strokeWeight: 2,
         scale: 10,
       };
@@ -106,25 +149,43 @@ export default function InteractiveMap({
 
     return {
       path: google.maps.SymbolPath.CIRCLE,
-      fillColor: '#4285f4',
+      fillColor: "#4285f4",
       fillOpacity: 0.8,
-      strokeColor: '#ffffff',
+      strokeColor: "#ffffff",
       strokeWeight: 2,
       scale: 8,
     };
   };
 
-  return (
-    <LoadScript googleMapsApiKey={apiKey}>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={center}
-        zoom={zoom}
-        options={mapOptions}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
+  if (!isLoaded) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          minHeight: "500px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        {places.map((place) => (
+        Loading map...
+      </div>
+    );
+  }
+
+  return (
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      center={center}
+      zoom={zoom}
+      options={getMapOptions(isFullscreen)}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+      onCenterChanged={handleCenterChanged}
+    >
+      {map &&
+        places.map((place) => (
           <Marker
             key={place.id}
             position={place.coordinates}
@@ -134,7 +195,6 @@ export default function InteractiveMap({
             icon={getMarkerIcon(place.id)}
           />
         ))}
-      </GoogleMap>
-    </LoadScript>
+    </GoogleMap>
   );
 }
