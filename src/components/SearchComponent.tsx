@@ -231,7 +231,7 @@ export function SearchComponent(): React.JSX.Element {
   };
 
   return (
-    <>
+    <div className="search-navbar-wrapper">
       {/* Search Button in Navbar */}
       <button
         className="search-button"
@@ -371,6 +371,6 @@ export function SearchComponent(): React.JSX.Element {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

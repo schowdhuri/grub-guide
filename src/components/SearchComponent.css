@@ -1,11 +1,13 @@
 /* Search Navbar Wrapper */
 .search-navbar-wrapper {
-  margin-right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
 }
 
-/* Search Button in Navbar */
+/* Search Button in Navbar - Desktop */
 .search-button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
@@ -18,6 +20,13 @@
   transition: all 0.2s ease;
   min-width: 200px;
   justify-content: space-between;
+}
+
+/* Desktop view - hide search button */
+@media (min-width: 997px) {
+  .search-navbar-wrapper {
+    display: none !important;
+  }
 }
 
 .search-button:hover {
@@ -358,13 +367,18 @@
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
-  /* Remove wrapper margin on mobile */
+@media (max-width: 996px) {
+  /* Keep search button visible in top navbar but make it icon-only on mobile */
   .search-navbar-wrapper {
-    margin-right: 0;
+    position: fixed !important;
+    top: 10px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+    display: inline-flex !important;
+    align-items: center;
+    margin-left: 0;
   }
 
-  /* Make search button icon-only on mobile */
   .search-button {
     min-width: auto;
     width: 40px;
@@ -378,7 +392,6 @@
 
   .search-button:hover {
     background: var(--ifm-color-emphasis-100);
-    border: none;
   }
 
   .search-placeholder {
