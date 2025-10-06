@@ -9,6 +9,7 @@
  */
 
 import React, { useState, useCallback, useEffect } from "react";
+import { Provider, useAtom, useSetAtom } from "jotai";
 import { PlaceData } from "@site/src/types/places";
 import InteractiveMap from "./InteractiveMap";
 import PlaceList from "./PlaceList";
@@ -17,6 +18,12 @@ import FloatingMiniMap from "./FloatingMiniMap";
 import BottomToolbar from "./BottomToolbar";
 import CategoryFilterPills from "./CategoryFilterPills";
 import { useURLNavigation } from "./useURLNavigation";
+import {
+  selectedPlaceIdAtom,
+  hoveredPlaceIdAtom,
+  isMapLoadedAtom,
+  mapCenterAtom,
+} from "./store";
 import "./styles.css";
 
 interface CityPlacesWidgetProps {
@@ -26,7 +33,7 @@ interface CityPlacesWidgetProps {
   defaultZoom?: number;
 }
 
-export default function CityPlacesWidget({
+function CityPlacesWidgetInner({
   places,
   cityName,
   defaultCenter,
@@ -41,9 +48,13 @@ export default function CityPlacesWidget({
     navigateToPlace,
   } = useURLNavigation();
 
-  // State management
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
-  const [hoveredPlaceId, setHoveredPlaceId] = useState<string | null>(null);
+  // Jotai atoms for shared state
+  const [selectedPlaceId, setSelectedPlaceId] = useAtom(selectedPlaceIdAtom);
+  const [hoveredPlaceId, setHoveredPlaceId] = useAtom(hoveredPlaceIdAtom);
+  const setIsMapLoaded = useSetAtom(isMapLoadedAtom);
+  const setMapCenter = useSetAtom(mapCenterAtom);
+
+  // Local component state
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [detailViewPlaceId, setDetailViewPlaceId] = useState<string | null>(
     null
@@ -51,7 +62,6 @@ export default function CityPlacesWidget({
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showMapDetailView, setShowMapDetailView] = useState(false);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   // Detect mobile viewport
   useEffect(() => {
@@ -77,6 +87,11 @@ export default function CityPlacesWidget({
     lat: places.reduce((sum, p) => sum + p.coordinates.lat, 0) / places.length,
     lng: places.reduce((sum, p) => sum + p.coordinates.lng, 0) / places.length,
   };
+
+  // Update map center atom when center changes
+  useEffect(() => {
+    setMapCenter(center);
+  }, [center, setMapCenter]);
 
   // Filter places based on search query and active categories
   const filteredPlaces = places.filter((place) => {
@@ -201,10 +216,7 @@ export default function CityPlacesWidget({
               places={filteredPlaces}
               center={center}
               zoom={defaultZoom}
-              selectedPlaceId={detailViewPlaceId}
-              hoveredPlaceId={hoveredPlaceId}
               onMarkerClick={handlePlaceClick}
-              onMarkerHover={handlePlaceHover}
               onPlaceSelect={handlePlaceSelect}
             />
           </div>
@@ -212,10 +224,7 @@ export default function CityPlacesWidget({
           <div className="widget-list">
             <PlaceList
               places={filteredPlaces}
-              selectedPlaceId={selectedPlaceId}
-              hoveredPlaceId={hoveredPlaceId}
               onPlaceClick={handlePlaceClick}
-              onPlaceHover={handlePlaceHover}
               onPlaceSelect={handlePlaceSelect}
               onDetailViewClose={() => setDetailViewPlaceId(null)}
               detailViewPlaceId={detailViewPlaceId}
@@ -237,10 +246,7 @@ export default function CityPlacesWidget({
               places={places}
               center={center}
               zoom={defaultZoom}
-              selectedPlaceId={null}
-              hoveredPlaceId={null}
               onMarkerClick={() => {}}
-              onMarkerHover={() => {}}
               onPlaceSelect={() => {}}
               isFullscreen={false}
             />
@@ -362,10 +368,7 @@ export default function CityPlacesWidget({
             places={filteredPlaces}
             center={center}
             zoom={defaultZoom}
-            selectedPlaceId={detailViewPlaceId}
-            hoveredPlaceId={hoveredPlaceId}
             onMarkerClick={handlePlaceClick}
-            onMarkerHover={handlePlaceHover}
             onPlaceSelect={handlePlaceSelect}
             isFullscreen={true}
             enableClustering={places.length > 20}
@@ -376,10 +379,7 @@ export default function CityPlacesWidget({
         {/* Bottom toolbar with place cards */}
         <BottomToolbar
           places={filteredPlaces}
-          selectedPlaceId={detailViewPlaceId}
-          mapCenter={center}
           onPlaceClick={handlePlaceSelect}
-          isMapLoaded={isMapLoaded}
         />
 
         {/* Fullscreen detail overlay for map mode */}
@@ -433,4 +433,16 @@ export default function CityPlacesWidget({
 
   // Detail view is handled by PlaceList component via URL navigation
   return null;
+}
+
+/**
+ * CityPlacesWidget with Jotai Provider
+ * Provider is scoped locally to this widget only
+ */
+export default function CityPlacesWidget(props: CityPlacesWidgetProps) {
+  return (
+    <Provider>
+      <CityPlacesWidgetInner {...props} />
+    </Provider>
+  );
 }

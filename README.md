@@ -70,7 +70,6 @@ global-grub-guide/
 Browse the same food content two different ways:
 
 1. **By Cuisine** (`/cuisines`) - Organized by culinary tradition
-
    - Thai, Filipino, Vietnamese cuisines
    - Categories: Curries, Noodles, Soups, Desserts, etc.
    - URLs: `/cuisines/:slug`

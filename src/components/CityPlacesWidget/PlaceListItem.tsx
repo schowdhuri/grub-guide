@@ -2,9 +2,9 @@
  * PlaceListItem - Individual place card in the list
  */
 
-import React from 'react';
-import { PlaceData } from '@site/src/types/places';
-import PlaceDetailsCard from './PlaceDetailsCard';
+import React from "react";
+import { PlaceData } from "@site/src/types/places";
+import PlaceDetailsCard from "./PlaceDetailsCard";
 
 interface PlaceListItemProps {
   place: PlaceData;
@@ -23,7 +23,7 @@ export default function PlaceListItem({
   onMouseEnter,
   onMouseLeave,
 }: PlaceListItemProps): React.JSX.Element {
-  const className = `place-list-item ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`;
+  const className = `place-list-item ${isSelected ? "selected" : ""} ${isHovered ? "hovered" : ""}`;
 
   return (
     <div
@@ -41,14 +41,10 @@ export default function PlaceListItem({
 
       <div className="place-meta">
         {place.myRating && (
-          <span className="place-rating">
-            {'⭐'.repeat(place.myRating)}
-          </span>
+          <span className="place-rating">{"⭐".repeat(place.myRating)}</span>
         )}
         {place.spiceLevel && (
-          <span className="place-spice">
-            {'🌶️'.repeat(place.spiceLevel)}
-          </span>
+          <span className="place-spice">{"🌶️".repeat(place.spiceLevel)}</span>
         )}
         {place.priceRange && (
           <span className="place-price">{place.priceRange}</span>

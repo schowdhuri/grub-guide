@@ -29,7 +29,7 @@ export interface PlaceData {
   visitDate?: string; // Date visited (YYYY-MM-DD)
   notes?: string; // Personal notes about the place
   mustTry?: string[]; // Recommended dishes
-  priceRange?: '$' | '$$' | '$$$'; // Price indicator
+  priceRange?: "$" | "$$" | "$$$"; // Price indicator
 
   // Additional metadata from Google
   phoneNumber?: string;
@@ -61,8 +61,8 @@ export interface PlaceFilters {
  * Sort options for place list
  */
 export type PlaceSortOption =
-  | 'name-asc'
-  | 'name-desc'
-  | 'rating-desc'
-  | 'rating-asc'
-  | 'recent';
+  | "name-asc"
+  | "name-desc"
+  | "rating-desc"
+  | "rating-asc"
+  | "recent";

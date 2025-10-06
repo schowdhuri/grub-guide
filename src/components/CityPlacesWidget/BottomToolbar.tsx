@@ -6,17 +6,16 @@
  * Supports snap scrolling and highlights selected place
  */
 
-import React, { useEffect, useRef } from 'react';
-import { PlaceData } from '@site/src/types/places';
-import PlaceCard from './PlaceCard';
+import React, { useEffect, useRef } from "react";
+import { useAtomValue } from "jotai";
+import { PlaceData } from "@site/src/types/places";
+import PlaceCard from "./PlaceCard";
+import { selectedPlaceIdAtom, mapCenterAtom } from "./store";
 
 interface BottomToolbarProps {
   places: PlaceData[];
-  selectedPlaceId: string | null;
-  mapCenter: { lat: number; lng: number };
   onPlaceClick: (placeId: string) => void;
   maxCards?: number;
-  isMapLoaded: boolean;
 }
 
 /**
@@ -45,12 +44,12 @@ function calculateDistance(
 
 export default function BottomToolbar({
   places,
-  selectedPlaceId,
-  mapCenter,
   onPlaceClick,
   maxCards = 8,
-  isMapLoaded,
 }: BottomToolbarProps): React.JSX.Element {
+  // Get state from Jotai atoms
+  const selectedPlaceId = useAtomValue(selectedPlaceIdAtom);
+  const mapCenter = useAtomValue(mapCenterAtom);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   // Calculate distances and sort by proximity to map center
@@ -77,12 +76,12 @@ export default function BottomToolbar({
 
     if (selectedIndex !== -1) {
       // Card width is now 90vw - 2rem + 12px gap
-      const cardWidth = (window.innerWidth * 0.9 - 32) + 12;
+      const cardWidth = window.innerWidth * 0.9 - 32 + 12;
       const scrollPosition = selectedIndex * cardWidth;
 
       carouselRef.current.scrollTo({
         left: scrollPosition,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   }, [selectedPlaceId, placesWithDistance]);
@@ -107,7 +106,6 @@ export default function BottomToolbar({
             isHighlighted={place.id === selectedPlaceId}
             distance={place.distance}
             onClick={() => onPlaceClick(place.id)}
-            isMapLoaded={isMapLoaded}
           />
         ))}
       </div>

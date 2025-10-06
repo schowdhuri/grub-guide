@@ -8,15 +8,15 @@
  * Outputs: src/data/chiangMaiPlaces.ts, src/data/bangkokPlaces.ts
  */
 
-const fs = require('fs');
-const https = require('https');
-const { exec } = require('child_process');
-const util = require('util');
-const csvParser = require('csv-parser');
+const fs = require("fs");
+const https = require("https");
+const { exec } = require("child_process");
+const util = require("util");
+const csvParser = require("csv-parser");
 
 const execPromise = util.promisify(exec);
 
-const CSV_FILE = '.plan/thailand-places.csv';
+const CSV_FILE = ".plan/thailand-places.csv";
 const DELAY_MS = 100; // Rate limiting
 
 // City boundaries (approximate)
@@ -33,7 +33,7 @@ async function parseCSV() {
 
     fs.createReadStream(CSV_FILE)
       .pipe(csvParser())
-      .on('data', (row) => {
+      .on("data", (row) => {
         const title = row.Title?.trim();
         const url = row.URL?.trim();
         const note = row.Note?.trim();
@@ -43,8 +43,8 @@ async function parseCSV() {
           places.push({ title, url, note, tags });
         }
       })
-      .on('end', () => resolve(places))
-      .on('error', reject);
+      .on("end", () => resolve(places))
+      .on("error", reject);
   });
 }
 
@@ -58,7 +58,7 @@ async function extractCoordinatesFromURL(url) {
     if (coordMatch) {
       return {
         lat: parseFloat(coordMatch[1]),
-        lng: parseFloat(coordMatch[2])
+        lng: parseFloat(coordMatch[2]),
       };
     }
 
@@ -70,7 +70,7 @@ async function extractCoordinatesFromURL(url) {
     if (match) {
       return {
         lat: parseFloat(match[1]),
-        lng: parseFloat(match[2])
+        lng: parseFloat(match[2]),
       };
     }
 
@@ -85,12 +85,14 @@ async function extractCoordinatesFromURL(url) {
  */
 function calculateDistance(lat1, lng1, lat2, lng2) {
   const R = 6371; // Earth radius in km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -99,7 +101,12 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
  * Determine if place is in Chiang Mai
  */
 function isChiangMai(lat, lng) {
-  const distance = calculateDistance(lat, lng, CHIANG_MAI_CENTER.lat, CHIANG_MAI_CENTER.lng);
+  const distance = calculateDistance(
+    lat,
+    lng,
+    CHIANG_MAI_CENTER.lat,
+    CHIANG_MAI_CENTER.lng
+  );
   return distance < CITY_RADIUS_KM;
 }
 
@@ -109,29 +116,42 @@ function isChiangMai(lat, lng) {
 function inferCategory(name) {
   const nameLower = name.toLowerCase();
 
-  if (nameLower.includes('khao soi') || nameLower.includes('ข้าวซอย')) {
-    return 'Khao Soi';
+  if (nameLower.includes("khao soi") || nameLower.includes("ข้าวซอย")) {
+    return "Khao Soi";
   }
-  if (nameLower.includes('pork leg') || nameLower.includes('khao kaa moo') || nameLower.includes('kha mu') || nameLower.includes('ขาหมู')) {
-    return 'Pork Leg';
+  if (
+    nameLower.includes("pork leg") ||
+    nameLower.includes("khao kaa moo") ||
+    nameLower.includes("kha mu") ||
+    nameLower.includes("ขาหมู")
+  ) {
+    return "Pork Leg";
   }
-  if (nameLower.includes('vegetarian') || nameLower.includes('vegan') || nameLower.includes('เจ')) {
-    return 'Vegetarian';
+  if (
+    nameLower.includes("vegetarian") ||
+    nameLower.includes("vegan") ||
+    nameLower.includes("เจ")
+  ) {
+    return "Vegetarian";
   }
-  if (nameLower.includes('noodle') || nameLower.includes('kuay teow') || nameLower.includes('ก๋วยเตี๋ยว')) {
-    return 'Noodles';
+  if (
+    nameLower.includes("noodle") ||
+    nameLower.includes("kuay teow") ||
+    nameLower.includes("ก๋วยเตี๋ยว")
+  ) {
+    return "Noodles";
   }
-  if (nameLower.includes('duck') || nameLower.includes('เป็ด')) {
-    return 'Duck';
+  if (nameLower.includes("duck") || nameLower.includes("เป็ด")) {
+    return "Duck";
   }
-  if (nameLower.includes('market') || nameLower.includes('ตลาด')) {
-    return 'Market';
+  if (nameLower.includes("market") || nameLower.includes("ตลาด")) {
+    return "Market";
   }
-  if (nameLower.includes('crispy pork') || nameLower.includes('หมูกรอบ')) {
-    return 'Crispy Pork';
+  if (nameLower.includes("crispy pork") || nameLower.includes("หมูกรอบ")) {
+    return "Crispy Pork";
   }
-  if (nameLower.includes('rice') || nameLower.includes('ข้าว')) {
-    return 'Rice Dishes';
+  if (nameLower.includes("rice") || nameLower.includes("ข้าว")) {
+    return "Rice Dishes";
   }
 
   return undefined;
@@ -141,7 +161,7 @@ function inferCategory(name) {
  * Process all places
  */
 async function processPlaces() {
-  console.log('🔍 Parsing CSV...');
+  console.log("🔍 Parsing CSV...");
   const csvPlaces = await parseCSV();
   console.log(`✓ Found ${csvPlaces.length} places in CSV\n`);
 
@@ -156,7 +176,9 @@ async function processPlaces() {
       const coords = await extractCoordinatesFromURL(place.url);
 
       if (!coords) {
-        console.log(`✗ [${i + 1}/${csvPlaces.length}] ${place.title}: Could not extract coordinates`);
+        console.log(
+          `✗ [${i + 1}/${csvPlaces.length}] ${place.title}: Could not extract coordinates`
+        );
         failCount++;
         continue;
       }
@@ -167,28 +189,38 @@ async function processPlaces() {
         id: `place_${i}`,
         name: place.title,
         coordinates: coords,
-        address: '', // We don't have address without API
+        address: "", // We don't have address without API
         googleMapsUrl: place.url,
         placeTypes: [],
         category,
-        tags: place.tags ? place.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+        tags: place.tags
+          ? place.tags
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
         notes: place.note || undefined,
-        isChiangMai: isChiangMai(coords.lat, coords.lng)
+        isChiangMai: isChiangMai(coords.lat, coords.lng),
       });
 
-      console.log(`✓ [${i + 1}/${csvPlaces.length}] ${place.title} (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})`);
+      console.log(
+        `✓ [${i + 1}/${csvPlaces.length}] ${place.title} (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})`
+      );
       successCount++;
 
       // Rate limiting
-      await new Promise(resolve => setTimeout(resolve, DELAY_MS));
-
+      await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
     } catch (error) {
-      console.log(`✗ [${i + 1}/${csvPlaces.length}] ${place.title}: ${error.message}`);
+      console.log(
+        `✗ [${i + 1}/${csvPlaces.length}] ${place.title}: ${error.message}`
+      );
       failCount++;
     }
   }
 
-  console.log(`\n📊 Summary: ${successCount} successful, ${failCount} failed\n`);
+  console.log(
+    `\n📊 Summary: ${successCount} successful, ${failCount} failed\n`
+  );
 
   return results;
 }
@@ -199,17 +231,17 @@ async function processPlaces() {
 function writeDataFile(filename, places, cityName) {
   const content = `/**
  * ${cityName} places data
- * Auto-generated from CSV on ${new Date().toISOString().split('T')[0]}
+ * Auto-generated from CSV on ${new Date().toISOString().split("T")[0]}
  *
  * To regenerate: npm run fetch-coordinates
  */
 
 import { PlaceData } from '@site/src/types/places';
 
-export const ${cityName.toLowerCase().replace(/\s+/g, '')}Places: PlaceData[] = ${JSON.stringify(places, null, 2)};
+export const ${cityName.toLowerCase().replace(/\s+/g, "")}Places: PlaceData[] = ${JSON.stringify(places, null, 2)};
 `;
 
-  fs.writeFileSync(filename, content, 'utf8');
+  fs.writeFileSync(filename, content, "utf8");
   console.log(`✓ Wrote ${places.length} places to ${filename}`);
 }
 
@@ -217,18 +249,18 @@ export const ${cityName.toLowerCase().replace(/\s+/g, '')}Places: PlaceData[] = 
  * Main execution
  */
 async function main() {
-  console.log('🚀 Starting place coordinate extraction (NO API NEEDED!)\n');
+  console.log("🚀 Starting place coordinate extraction (NO API NEEDED!)\n");
 
   try {
     const allPlaces = await processPlaces();
 
     // Separate by city
-    const chiangMaiPlaces = allPlaces.filter(p => p.isChiangMai);
-    const bangkokPlaces = allPlaces.filter(p => !p.isChiangMai);
+    const chiangMaiPlaces = allPlaces.filter((p) => p.isChiangMai);
+    const bangkokPlaces = allPlaces.filter((p) => !p.isChiangMai);
 
     // Remove the isChiangMai flag before writing
-    chiangMaiPlaces.forEach(p => delete p.isChiangMai);
-    bangkokPlaces.forEach(p => delete p.isChiangMai);
+    chiangMaiPlaces.forEach((p) => delete p.isChiangMai);
+    bangkokPlaces.forEach((p) => delete p.isChiangMai);
 
     console.log(`\n📍 City breakdown:`);
     console.log(`   Chiang Mai: ${chiangMaiPlaces.length}`);
@@ -236,22 +268,25 @@ async function main() {
 
     // Write data files
     if (chiangMaiPlaces.length > 0) {
-      writeDataFile('src/data/chiangMaiPlaces.ts', chiangMaiPlaces, 'Chiang Mai');
+      writeDataFile(
+        "src/data/chiangMaiPlaces.ts",
+        chiangMaiPlaces,
+        "Chiang Mai"
+      );
     }
 
     if (bangkokPlaces.length > 0) {
-      writeDataFile('src/data/bangkokPlaces.ts', bangkokPlaces, 'Bangkok');
+      writeDataFile("src/data/bangkokPlaces.ts", bangkokPlaces, "Bangkok");
     }
 
-    console.log('\n✅ Done! You can now manually enhance the data with:');
-    console.log('   - Thai names (nameLocal)');
-    console.log('   - Photos (photos[])');
-    console.log('   - Ratings (myRating)');
-    console.log('   - Notes (notes)');
-    console.log('   - Must-try dishes (mustTry[])\n');
-
+    console.log("\n✅ Done! You can now manually enhance the data with:");
+    console.log("   - Thai names (nameLocal)");
+    console.log("   - Photos (photos[])");
+    console.log("   - Ratings (myRating)");
+    console.log("   - Notes (notes)");
+    console.log("   - Must-try dishes (mustTry[])\n");
   } catch (error) {
-    console.error('\n❌ Error:', error.message);
+    console.error("\n❌ Error:", error.message);
     process.exit(1);
   }
 }

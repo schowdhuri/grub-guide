@@ -5,8 +5,8 @@
  * Allows quick filtering by place categories
  */
 
-import React from 'react';
-import { PlaceData } from '@site/src/types/places';
+import React from "react";
+import { PlaceData } from "@site/src/types/places";
 
 interface CategoryFilterPillsProps {
   places: PlaceData[];
@@ -36,7 +36,7 @@ export default function CategoryFilterPills({
     <div className="category-filter-pills">
       {/* "All" pill */}
       <button
-        className={`filter-pill ${activeCategories.length === 0 ? 'active' : ''}`}
+        className={`filter-pill ${activeCategories.length === 0 ? "active" : ""}`}
         onClick={() => {
           // Clear all filters
           activeCategories.forEach((cat) => onCategoryToggle(cat));
@@ -54,7 +54,7 @@ export default function CategoryFilterPills({
         return (
           <button
             key={category}
-            className={`filter-pill ${isActive ? 'active' : ''}`}
+            className={`filter-pill ${isActive ? "active" : ""}`}
             onClick={() => onCategoryToggle(category)}
             aria-label={`Filter by ${category}`}
             aria-pressed={isActive}

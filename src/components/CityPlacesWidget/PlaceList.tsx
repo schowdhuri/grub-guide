@@ -2,17 +2,16 @@
  * PlaceList - iOS-style drill-down navigation for places
  */
 
-import React, { useState, useEffect } from 'react';
-import { PlaceData } from '@site/src/types/places';
-import PlaceListItem from './PlaceListItem';
-import PlaceDetailView from './PlaceDetailView';
+import React, { useState, useEffect } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { PlaceData } from "@site/src/types/places";
+import PlaceListItem from "./PlaceListItem";
+import PlaceDetailView from "./PlaceDetailView";
+import { selectedPlaceIdAtom, hoveredPlaceIdAtom } from "./store";
 
 interface PlaceListProps {
   places: PlaceData[];
-  selectedPlaceId: string | null;
-  hoveredPlaceId: string | null;
   onPlaceClick: (placeId: string) => void;
-  onPlaceHover: (placeId: string | null) => void;
   onPlaceSelect: (placeId: string) => void;
   onDetailViewClose: () => void;
   detailViewPlaceId: string | null;
@@ -20,20 +19,23 @@ interface PlaceListProps {
 
 export default function PlaceList({
   places,
-  selectedPlaceId,
-  hoveredPlaceId,
   onPlaceClick,
-  onPlaceHover,
   onPlaceSelect,
   onDetailViewClose,
   detailViewPlaceId,
 }: PlaceListProps): React.JSX.Element {
-  const [detailViewPlace, setDetailViewPlace] = useState<PlaceData | null>(null);
+  // Get state from Jotai atoms
+  const selectedPlaceId = useAtomValue(selectedPlaceIdAtom);
+  const hoveredPlaceId = useAtomValue(hoveredPlaceIdAtom);
+  const setHoveredPlaceId = useSetAtom(hoveredPlaceIdAtom);
+  const [detailViewPlace, setDetailViewPlace] = useState<PlaceData | null>(
+    null
+  );
 
   // Sync external selection (from map marker clicks) with internal detail view state
   useEffect(() => {
     if (detailViewPlaceId) {
-      const place = places.find(p => p.id === detailViewPlaceId);
+      const place = places.find((p) => p.id === detailViewPlaceId);
       if (place) {
         setDetailViewPlace(place);
       }
@@ -43,14 +45,17 @@ export default function PlaceList({
   }, [detailViewPlaceId, places]);
 
   // Group places by category
-  const groupedPlaces = places.reduce<Record<string, PlaceData[]>>((acc, place) => {
-    const category = place.category || 'Other';
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category]!.push(place);
-    return acc;
-  }, {});
+  const groupedPlaces = places.reduce<Record<string, PlaceData[]>>(
+    (acc, place) => {
+      const category = place.category || "Other";
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category]!.push(place);
+      return acc;
+    },
+    {}
+  );
 
   const categories = Object.keys(groupedPlaces).sort();
 
@@ -66,12 +71,7 @@ export default function PlaceList({
 
   // Show detail view if a place is selected
   if (detailViewPlace) {
-    return (
-      <PlaceDetailView
-        place={detailViewPlace}
-        onBack={handleBackClick}
-      />
-    );
+    return <PlaceDetailView place={detailViewPlace} onBack={handleBackClick} />;
   }
 
   // Show list view
@@ -92,8 +92,8 @@ export default function PlaceList({
                   isSelected={false}
                   isHovered={place.id === hoveredPlaceId}
                   onClick={() => handlePlaceClick(place)}
-                  onMouseEnter={() => onPlaceHover(place.id)}
-                  onMouseLeave={() => onPlaceHover(null)}
+                  onMouseEnter={() => setHoveredPlaceId(place.id)}
+                  onMouseLeave={() => setHoveredPlaceId(null)}
                 />
               ))}
             </div>

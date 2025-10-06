@@ -17,12 +17,14 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
   /* Typography */
-  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --ifm-heading-font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-font-family-base:
+    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ifm-heading-font-family:
+    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #ff8959;
   --ifm-color-primary-dark: #ff7542;
   --ifm-color-primary-darker: #ff6e35;
@@ -234,7 +236,11 @@
   }
 
   /* Better link styling in mobile sidebar - only for top-level items */
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link {
     font-size: 1.125rem;
     font-weight: 500;
     padding: 1rem 1.25rem;
@@ -247,22 +253,38 @@
   }
 
   /* Add icons before top-level links */
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link[href="/cuisines"]::before {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link[href="/cuisines"]::before {
     content: "🍜 ";
     margin-right: 0.5rem;
   }
 
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link[href="/locations"]::before {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link[href="/locations"]::before {
     content: "📍 ";
     margin-right: 0.5rem;
   }
 
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link:not(.menu__link--sublist):not(.menu__link--active):active {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link:not(.menu__link--sublist):not(.menu__link--active):active {
     background: var(--ifm-color-emphasis-200);
     transform: scale(0.98);
   }
 
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link--active {
     background: var(--ifm-color-primary);
     color: white;
     font-weight: 600;
@@ -271,7 +293,11 @@
     position: relative;
   }
 
-  .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active::after {
+  .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link--active::after {
     content: "›";
     position: absolute;
     right: 1.25rem;
@@ -280,7 +306,12 @@
     opacity: 0.9;
   }
 
-  [data-theme='dark'] .navbar-sidebar__items > .menu > .menu__list > .menu__list-item > .menu__link--active {
+  [data-theme="dark"]
+    .navbar-sidebar__items
+    > .menu
+    > .menu__list
+    > .menu__list-item
+    > .menu__link--active {
     background: var(--ifm-color-primary);
     color: white;
     box-shadow: 0 2px 8px rgba(255, 137, 89, 0.3);

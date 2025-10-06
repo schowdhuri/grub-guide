@@ -3,15 +3,15 @@
  * Uses Places API (New) - Nearby Search to find Place ID from lat/lng
  */
 
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+const https = require("https");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config();
 
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
 if (!API_KEY) {
-  console.error('Error: GOOGLE_MAPS_API_KEY not found in .env file');
+  console.error("Error: GOOGLE_MAPS_API_KEY not found in .env file");
   process.exit(1);
 }
 
@@ -27,35 +27,38 @@ function getPlaceIdFromCoordinates(lat, lng) {
       locationRestriction: {
         circle: {
           center: { latitude: lat, longitude: lng },
-          radius: 50.0 // 50 meters radius - very tight to get exact place
-        }
-      }
+          radius: 50.0, // 50 meters radius - very tight to get exact place
+        },
+      },
     });
 
     const options = {
-      hostname: 'places.googleapis.com',
-      path: '/v1/places:searchNearby',
-      method: 'POST',
+      hostname: "places.googleapis.com",
+      path: "/v1/places:searchNearby",
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Key': API_KEY,
-        'X-Goog-FieldMask': 'places.id,places.displayName'
-      }
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": API_KEY,
+        "X-Goog-FieldMask": "places.id,places.displayName",
+      },
     };
 
     const req = https.request(options, (res) => {
-      let data = '';
+      let data = "";
 
-      res.on('data', (chunk) => {
+      res.on("data", (chunk) => {
         data += chunk;
       });
 
-      res.on('end', () => {
+      res.on("end", () => {
         try {
           const result = JSON.parse(data);
 
           if (result.error) {
-            console.error(`API Error for (${lat}, ${lng}):`, result.error.message);
+            console.error(
+              `API Error for (${lat}, ${lng}):`,
+              result.error.message
+            );
             resolve(null);
             return;
           }
@@ -75,7 +78,7 @@ function getPlaceIdFromCoordinates(lat, lng) {
       });
     });
 
-    req.on('error', (error) => {
+    req.on("error", (error) => {
       console.error(`Request error for (${lat}, ${lng}):`, error.message);
       resolve(null);
     });
@@ -89,22 +92,24 @@ function getPlaceIdFromCoordinates(lat, lng) {
  * Add delay between API calls to avoid rate limiting
  */
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * Process a places file and add Place IDs
  */
 async function enrichPlacesFile(filePath, cityName) {
-  console.log(`\n${'='.repeat(60)}`);
+  console.log(`\n${"=".repeat(60)}`);
   console.log(`Processing ${cityName} places...`);
-  console.log(`${'='.repeat(60)}\n`);
+  console.log(`${"=".repeat(60)}\n`);
 
   // Read the TypeScript file
-  const content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, "utf8");
 
   // Extract the places array using regex
-  const placesMatch = content.match(/export const \w+Places: PlaceData\[\] = (\[[\s\S]+\]);/);
+  const placesMatch = content.match(
+    /export const \w+Places: PlaceData\[\] = (\[[\s\S]+\]);/
+  );
 
   if (!placesMatch) {
     console.error(`Could not parse places array from ${filePath}`);
@@ -147,8 +152,8 @@ async function enrichPlacesFile(filePath, cityName) {
   // Generate updated TypeScript file
   const header = `/**
  * ${cityName} places data
- * Auto-generated from CSV on ${new Date().toISOString().split('T')[0]}
- * Enriched with Place IDs on ${new Date().toISOString().split('T')[0]}
+ * Auto-generated from CSV on ${new Date().toISOString().split("T")[0]}
+ * Enriched with Place IDs on ${new Date().toISOString().split("T")[0]}
  *
  * To regenerate coordinates: npm run fetch-coordinates
  * To enrich with Place IDs: npm run enrich-place-ids
@@ -158,42 +163,44 @@ import { PlaceData } from '@site/src/types/places';
 
 export const ${cityName.toLowerCase()}Places: PlaceData[] = `;
 
-  const newContent = header + JSON.stringify(places, null, 2) + ';\n';
+  const newContent = header + JSON.stringify(places, null, 2) + ";\n";
 
   // Write back to file
   fs.writeFileSync(filePath, newContent);
 
-  console.log(`\n${'='.repeat(60)}`);
+  console.log(`\n${"=".repeat(60)}`);
   console.log(`${cityName} Summary:`);
   console.log(`  ✅ Successfully enriched: ${enrichedCount}`);
   console.log(`  ❌ Failed: ${failedCount}`);
   console.log(`  📁 Updated: ${filePath}`);
-  console.log(`${'='.repeat(60)}\n`);
+  console.log(`${"=".repeat(60)}\n`);
 }
 
 /**
  * Main execution
  */
 async function main() {
-  console.log('🔍 Enriching places with Place IDs from Google Places API (New)...\n');
+  console.log(
+    "🔍 Enriching places with Place IDs from Google Places API (New)...\n"
+  );
 
   // Process both cities
   await enrichPlacesFile(
-    path.join(__dirname, '../src/data/chiangMaiPlaces.ts'),
-    'ChiangMai'
+    path.join(__dirname, "../src/data/chiangMaiPlaces.ts"),
+    "ChiangMai"
   );
 
   await enrichPlacesFile(
-    path.join(__dirname, '../src/data/bangkokPlaces.ts'),
-    'Bangkok'
+    path.join(__dirname, "../src/data/bangkokPlaces.ts"),
+    "Bangkok"
   );
 
-  console.log('✅ All done! Place data has been enriched with Place IDs.');
-  console.log('\nYou can now use these Place IDs to fetch:');
-  console.log('  - Photos (places.photos)');
-  console.log('  - Ratings (places.rating)');
-  console.log('  - Reviews (places.reviews)');
-  console.log('  - Opening hours (places.regularOpeningHours)');
+  console.log("✅ All done! Place data has been enriched with Place IDs.");
+  console.log("\nYou can now use these Place IDs to fetch:");
+  console.log("  - Photos (places.photos)");
+  console.log("  - Ratings (places.rating)");
+  console.log("  - Reviews (places.reviews)");
+  console.log("  - Opening hours (places.regularOpeningHours)");
 }
 
 main().catch(console.error);

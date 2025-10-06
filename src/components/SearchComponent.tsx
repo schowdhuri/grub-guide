@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Link from '@docusaurus/Link';
-import { searchIndex, type SearchItem } from '@site/src/data/searchIndex';
-import './SearchComponent.css';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import Link from "@docusaurus/Link";
+import { searchIndex, type SearchItem } from "@site/src/data/searchIndex";
+import "./SearchComponent.css";
 
 interface SearchResult {
   title: string;
@@ -12,11 +12,11 @@ interface SearchResult {
   nativeName?: string;
   pronunciation?: string;
   score: number;
-  matchType: 'tag' | 'title' | 'description' | 'content';
+  matchType: "tag" | "title" | "description" | "content";
 }
 
 export function SearchComponent(): React.JSX.Element {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,7 +30,7 @@ export function SearchComponent(): React.JSX.Element {
     let queryLower = searchQuery.toLowerCase().trim();
     let isHashtagSearch = false;
 
-    if (queryLower.startsWith('#')) {
+    if (queryLower.startsWith("#")) {
       queryLower = queryLower.substring(1);
       isHashtagSearch = true;
     }
@@ -38,7 +38,7 @@ export function SearchComponent(): React.JSX.Element {
 
     for (const item of searchIndex) {
       let score = 0;
-      let matchType: SearchResult['matchType'] = 'content';
+      let matchType: SearchResult["matchType"] = "content";
 
       // Tag matches (highest priority - score 100, or 200 for hashtag searches)
       const tagMatches = item.tags.filter((tag: string) =>
@@ -48,7 +48,7 @@ export function SearchComponent(): React.JSX.Element {
         // Give extra priority to explicit hashtag searches
         const tagScore = isHashtagSearch ? 200 : 100;
         score += tagMatches.length * tagScore;
-        matchType = 'tag';
+        matchType = "tag";
       }
 
       // For hashtag searches, only search in tags for cleaner results
@@ -56,25 +56,28 @@ export function SearchComponent(): React.JSX.Element {
         // Title matches (high priority - score 50)
         if (item.title.toLowerCase().includes(queryLower)) {
           score += 50;
-          if (matchType === 'content') matchType = 'title';
+          if (matchType === "content") matchType = "title";
         }
 
         // Native name matches (high priority - score 45)
         if (item.nativeName && item.nativeName.includes(queryLower)) {
           score += 45;
-          if (matchType === 'content') matchType = 'title';
+          if (matchType === "content") matchType = "title";
         }
 
         // Pronunciation matches (medium-high priority - score 40)
-        if (item.pronunciation && item.pronunciation.toLowerCase().includes(queryLower)) {
+        if (
+          item.pronunciation &&
+          item.pronunciation.toLowerCase().includes(queryLower)
+        ) {
           score += 40;
-          if (matchType === 'content') matchType = 'title';
+          if (matchType === "content") matchType = "title";
         }
 
         // Description matches (medium priority - score 20)
         if (item.description.toLowerCase().includes(queryLower)) {
           score += 20;
-          if (matchType === 'content') matchType = 'description';
+          if (matchType === "content") matchType = "description";
         }
 
         // Content matches (lower priority - score 10)
@@ -91,7 +94,7 @@ export function SearchComponent(): React.JSX.Element {
           description: item.description,
           content: item.content,
           score,
-          matchType
+          matchType,
         };
         if (item.nativeName) {
           result.nativeName = item.nativeName;
@@ -107,7 +110,12 @@ export function SearchComponent(): React.JSX.Element {
     return searchResults.sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
 
-      const matchTypePriority = { tag: 4, title: 3, description: 2, content: 1 };
+      const matchTypePriority = {
+        tag: 4,
+        title: 3,
+        description: 2,
+        content: 1,
+      };
       return matchTypePriority[b.matchType] - matchTypePriority[a.matchType];
     });
   };
@@ -116,28 +124,30 @@ export function SearchComponent(): React.JSX.Element {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ctrl+K or Cmd+K to open modal
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
         setIsModalOpen(true);
       }
 
       // Escape to close modal
-      if (e.key === 'Escape' && isModalOpen) {
+      if (e.key === "Escape" && isModalOpen) {
         setIsModalOpen(false);
-        setQuery('');
+        setQuery("");
       }
 
       // Arrow navigation
       if (isModalOpen && results.length > 0) {
-        if (e.key === 'ArrowDown') {
+        if (e.key === "ArrowDown") {
           e.preventDefault();
-          setSelectedIndex(prev => (prev + 1) % results.length);
+          setSelectedIndex((prev) => (prev + 1) % results.length);
         }
-        if (e.key === 'ArrowUp') {
+        if (e.key === "ArrowUp") {
           e.preventDefault();
-          setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+          setSelectedIndex(
+            (prev) => (prev - 1 + results.length) % results.length
+          );
         }
-        if (e.key === 'Enter' && selectedIndex >= 0) {
+        if (e.key === "Enter" && selectedIndex >= 0) {
           e.preventDefault();
           const selectedResult = results[selectedIndex];
           if (selectedResult) {
@@ -147,8 +157,8 @@ export function SearchComponent(): React.JSX.Element {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isModalOpen, results, selectedIndex]);
 
   // Update search results
@@ -170,7 +180,7 @@ export function SearchComponent(): React.JSX.Element {
     if (!isModalOpen) return;
 
     // Push a new history state when modal opens
-    window.history.pushState({ searchModal: true }, '');
+    window.history.pushState({ searchModal: true }, "");
 
     const handlePopState = (e: PopStateEvent) => {
       if (isModalOpen) {
@@ -179,10 +189,10 @@ export function SearchComponent(): React.JSX.Element {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
       // Clean up history state if modal is still open
       if (window.history.state?.searchModal) {
         window.history.back();
@@ -196,7 +206,7 @@ export function SearchComponent(): React.JSX.Element {
 
   const handleResultClick = (url: string) => {
     setIsModalOpen(false);
-    setQuery('');
+    setQuery("");
     window.location.href = url;
   };
 
@@ -206,13 +216,13 @@ export function SearchComponent(): React.JSX.Element {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setQuery('');
+    setQuery("");
   };
 
   const handleCloseButtonClick = () => {
     if (query.trim()) {
       // If there's text, just clear it
-      setQuery('');
+      setQuery("");
       inputRef.current?.focus();
     } else {
       // If empty, close the modal
@@ -220,24 +230,25 @@ export function SearchComponent(): React.JSX.Element {
     }
   };
 
-  const getMatchTypeIndicator = (matchType: SearchResult['matchType']) => {
+  const getMatchTypeIndicator = (matchType: SearchResult["matchType"]) => {
     switch (matchType) {
-      case 'tag': return '🏷️';
-      case 'title': return '📝';
-      case 'description': return '📄';
-      case 'content': return '🔍';
-      default: return '🔍';
+      case "tag":
+        return "🏷️";
+      case "title":
+        return "📝";
+      case "description":
+        return "📄";
+      case "content":
+        return "🔍";
+      default:
+        return "🔍";
     }
   };
 
   return (
     <div className="search-navbar-wrapper">
       {/* Search Button in Navbar */}
-      <button
-        className="search-button"
-        onClick={openModal}
-        aria-label="Search"
-      >
+      <button className="search-button" onClick={openModal} aria-label="Search">
         <span className="search-icon">🔍</span>
         <span className="search-placeholder">Search...</span>
         <span className="search-shortcut">
@@ -274,10 +285,7 @@ export function SearchComponent(): React.JSX.Element {
                   autoComplete="off"
                 />
                 {query && (
-                  <button
-                    className="search-clear"
-                    onClick={() => setQuery('')}
-                  >
+                  <button className="search-clear" onClick={() => setQuery("")}>
                     ✕
                   </button>
                 )}
@@ -287,21 +295,38 @@ export function SearchComponent(): React.JSX.Element {
             <div className="search-modal-body">
               {!query.trim() && (
                 <div className="search-suggestions">
-                  <div className="search-suggestions-title">Popular searches</div>
+                  <div className="search-suggestions-title">
+                    Popular searches
+                  </div>
                   <div className="search-suggestions-list">
-                    <button onClick={() => setQuery('#curry')} className="search-suggestion-item">
+                    <button
+                      onClick={() => setQuery("#curry")}
+                      className="search-suggestion-item"
+                    >
                       🏷️ #curry
                     </button>
-                    <button onClick={() => setQuery('#spicy')} className="search-suggestion-item">
+                    <button
+                      onClick={() => setQuery("#spicy")}
+                      className="search-suggestion-item"
+                    >
                       🏷️ #spicy
                     </button>
-                    <button onClick={() => setQuery('#street-food')} className="search-suggestion-item">
+                    <button
+                      onClick={() => setQuery("#street-food")}
+                      className="search-suggestion-item"
+                    >
                       🏷️ #street-food
                     </button>
-                    <button onClick={() => setQuery('tom yum')} className="search-suggestion-item">
+                    <button
+                      onClick={() => setQuery("tom yum")}
+                      className="search-suggestion-item"
+                    >
                       🍲 tom yum
                     </button>
-                    <button onClick={() => setQuery('pad thai')} className="search-suggestion-item">
+                    <button
+                      onClick={() => setQuery("pad thai")}
+                      className="search-suggestion-item"
+                    >
                       🍜 pad thai
                     </button>
                   </div>
@@ -311,12 +336,13 @@ export function SearchComponent(): React.JSX.Element {
               {query.trim() && results.length > 0 && (
                 <div className="search-results">
                   <div className="search-results-header">
-                    Found {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
+                    Found {results.length} result
+                    {results.length !== 1 ? "s" : ""} for "{query}"
                   </div>
                   {results.map((result, index) => (
                     <button
                       key={`${result.url}-${index}`}
-                      className={`search-result-item ${index === selectedIndex ? 'selected' : ''}`}
+                      className={`search-result-item ${index === selectedIndex ? "selected" : ""}`}
                       onClick={() => handleResultClick(result.url)}
                       onMouseEnter={() => setSelectedIndex(index)}
                     >
@@ -324,16 +350,24 @@ export function SearchComponent(): React.JSX.Element {
                         <span className="search-result-indicator">
                           {getMatchTypeIndicator(result.matchType)}
                         </span>
-                        <span className="search-result-title">{result.title}</span>
+                        <span className="search-result-title">
+                          {result.title}
+                        </span>
                         {result.nativeName && (
-                          <span className="search-result-thai">({result.nativeName})</span>
+                          <span className="search-result-thai">
+                            ({result.nativeName})
+                          </span>
                         )}
                       </div>
-                      <div className="search-result-description">{result.description}</div>
+                      <div className="search-result-description">
+                        {result.description}
+                      </div>
                       {result.tags.length > 0 && (
                         <div className="search-result-tags">
                           {result.tags.slice(0, 5).map((tag: string) => (
-                            <span key={tag} className="search-result-tag">#{tag}</span>
+                            <span key={tag} className="search-result-tag">
+                              #{tag}
+                            </span>
                           ))}
                         </div>
                       )}
@@ -349,7 +383,8 @@ export function SearchComponent(): React.JSX.Element {
                     No results for "{query}"
                   </div>
                   <div className="search-no-results-suggestion">
-                    Try searching for: curry, #spicy, #street-food, #isan, tom yum
+                    Try searching for: curry, #spicy, #street-food, #isan, tom
+                    yum
                   </div>
                 </div>
               )}
@@ -358,7 +393,8 @@ export function SearchComponent(): React.JSX.Element {
             <div className="search-modal-footer">
               <div className="search-shortcuts">
                 <span className="search-shortcut-item">
-                  <kbd>↑</kbd><kbd>↓</kbd> navigate
+                  <kbd>↑</kbd>
+                  <kbd>↓</kbd> navigate
                 </span>
                 <span className="search-shortcut-item">
                   <kbd>↵</kbd> select

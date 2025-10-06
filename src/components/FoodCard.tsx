@@ -1,5 +1,5 @@
-import React from 'react';
-import Link from '@docusaurus/Link';
+import React from "react";
+import Link from "@docusaurus/Link";
 
 interface FoodCardProps {
   name: string;
@@ -16,14 +16,14 @@ export function FoodCard({
   rating,
   spiceLevel,
   tags = [],
-  link
+  link,
 }: FoodCardProps): React.JSX.Element {
   const renderStars = (rating: number): string => {
-    return '⭐'.repeat(rating);
+    return "⭐".repeat(rating);
   };
 
   const renderChilis = (level: number): string => {
-    return '🌶️'.repeat(level);
+    return "🌶️".repeat(level);
   };
 
   return (
@@ -31,7 +31,14 @@ export function FoodCard({
       <h3>{name}</h3>
       <p>{description}</p>
 
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1rem' }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+          marginBottom: "1rem",
+        }}
+      >
         <div className="food-rating">
           {renderStars(rating)} ({rating}/5)
         </div>
@@ -52,11 +59,8 @@ export function FoodCard({
       )}
 
       {link && (
-        <div style={{ marginTop: '1rem' }}>
-          <Link
-            to={link}
-            className="button button--primary"
-          >
+        <div style={{ marginTop: "1rem" }}>
+          <Link to={link} className="button button--primary">
             Read More →
           </Link>
         </div>

@@ -5,21 +5,23 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import { useAtomValue, useSetAtom } from "jotai";
 import { PlaceData } from "@site/src/types/places";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import {
+  selectedPlaceIdAtom,
+  hoveredPlaceIdAtom,
+  isMapLoadedAtom,
+} from "./store";
 
 interface InteractiveMapProps {
   places: PlaceData[];
   center: { lat: number; lng: number };
   zoom: number;
-  selectedPlaceId: string | null;
-  hoveredPlaceId: string | null;
   onMarkerClick: (placeId: string) => void;
-  onMarkerHover: (placeId: string | null) => void;
   onPlaceSelect: (placeId: string) => void;
   isFullscreen?: boolean;
   enableClustering?: boolean;
-  onBoundsChange?: (center: { lat: number; lng: number }) => void;
   onMapLoaded?: (isLoaded: boolean) => void;
 }
 
@@ -43,16 +45,17 @@ export default function InteractiveMap({
   places,
   center,
   zoom,
-  selectedPlaceId,
-  hoveredPlaceId,
   onMarkerClick,
-  onMarkerHover,
   onPlaceSelect,
   isFullscreen = false,
   enableClustering = false,
-  onBoundsChange,
   onMapLoaded,
 }: InteractiveMapProps): React.JSX.Element {
+  // Get state from Jotai atoms
+  const selectedPlaceId = useAtomValue(selectedPlaceIdAtom);
+  const hoveredPlaceId = useAtomValue(hoveredPlaceIdAtom);
+  const setHoveredPlaceId = useSetAtom(hoveredPlaceIdAtom);
+  const setIsMapLoaded = useSetAtom(isMapLoadedAtom);
   const { siteConfig } = useDocusaurusContext();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
@@ -62,15 +65,16 @@ export default function InteractiveMap({
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: apiKey,
-    libraries: ['places'], // Load places library for PlaceCard
+    libraries: ["places"], // Load places library for PlaceCard
   });
 
-  // Notify parent when map is loaded
+  // Update isMapLoaded atom when map is loaded
   useEffect(() => {
+    setIsMapLoaded(isLoaded);
     if (onMapLoaded) {
       onMapLoaded(isLoaded);
     }
-  }, [isLoaded, onMapLoaded]);
+  }, [isLoaded, onMapLoaded, setIsMapLoaded]);
 
   // Pan to selected place
   useEffect(() => {
@@ -176,8 +180,8 @@ export default function InteractiveMap({
             key={place.id}
             position={place.coordinates}
             onClick={() => handleMarkerClick(place.id)}
-            onMouseOver={() => onMarkerHover(place.id)}
-            onMouseOut={() => onMarkerHover(null)}
+            onMouseOver={() => setHoveredPlaceId(place.id)}
+            onMouseOut={() => setHoveredPlaceId(null)}
             icon={getMarkerIcon(place.id)}
           />
         ))}

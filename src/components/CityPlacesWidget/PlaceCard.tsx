@@ -6,14 +6,15 @@
  */
 
 import React, { useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
 import { PlaceData } from "@site/src/types/places";
+import { isMapLoadedAtom } from "./store";
 
 interface PlaceCardProps {
   place: PlaceData;
   isHighlighted: boolean;
   distance?: number; // Distance from map center in km
   onClick: () => void;
-  isMapLoaded: boolean;
 }
 
 export default function PlaceCard({
@@ -21,8 +22,9 @@ export default function PlaceCard({
   isHighlighted,
   distance,
   onClick,
-  isMapLoaded,
 }: PlaceCardProps): React.JSX.Element {
+  // Get state from Jotai atom
+  const isMapLoaded = useAtomValue(isMapLoadedAtom);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [placeDetails, setPlaceDetails] = useState<{
     rating?: number;

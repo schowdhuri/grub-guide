@@ -19,17 +19,6 @@
       "@site/*": ["./*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "docs/**/*",
-    "*.ts",
-    "*.tsx",
-    "*.js",
-    "*.jsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    ".docusaurus"
-  ]
+  "include": ["src/**/*", "docs/**/*", "*.ts", "*.tsx", "*.js", "*.jsx"],
+  "exclude": ["node_modules", "build", ".docusaurus"]
 }
