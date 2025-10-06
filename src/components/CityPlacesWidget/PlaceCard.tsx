@@ -5,15 +5,15 @@
  * Shows place photo, name (English + Thai), rating, category, and distance
  */
 
-import React, { useEffect, useState } from 'react';
-import { PlaceData } from '@site/src/types/places';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React, { useEffect, useState } from "react";
+import { PlaceData } from "@site/src/types/places";
 
 interface PlaceCardProps {
   place: PlaceData;
   isHighlighted: boolean;
   distance?: number; // Distance from map center in km
   onClick: () => void;
+  isMapLoaded: boolean;
 }
 
 export default function PlaceCard({
@@ -21,8 +21,8 @@ export default function PlaceCard({
   isHighlighted,
   distance,
   onClick,
+  isMapLoaded,
 }: PlaceCardProps): React.JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [placeDetails, setPlaceDetails] = useState<{
     rating?: number;
@@ -32,29 +32,60 @@ export default function PlaceCard({
     hoursText?: string;
     category?: string;
   } | null>(null);
-  const className = `place-card ${isHighlighted ? 'highlighted' : ''}`;
+  const [isLoading, setIsLoading] = useState(true);
+  const className = `place-card ${isHighlighted ? "highlighted" : ""}`;
 
   // Fetch photo and details from Google Places API if placeId exists
   useEffect(() => {
-    if (!place.placeId) return;
+    if (!place.placeId) {
+      setIsLoading(false);
+      return;
+    }
+
+    let cancelled = false;
 
     const fetchPlaceData = async () => {
-      if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+      // Wait for map to be loaded (poll every 100ms, max 100 times = 10 seconds)
+      let attempts = 0;
+      while (attempts < 100 && !isMapLoaded) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        attempts++;
+      }
+
+      if (
+        cancelled ||
+        !isMapLoaded ||
+        typeof google === "undefined" ||
+        !google.maps ||
+        !google.maps.places
+      ) {
+        setIsLoading(false);
         return;
       }
 
       try {
         const service = new google.maps.places.PlacesService(
-          document.createElement('div')
+          document.createElement("div")
         );
 
         service.getDetails(
           {
             placeId: place.placeId!,
-            fields: ['photos', 'rating', 'user_ratings_total', 'price_level', 'opening_hours', 'types', 'business_status'],
+            fields: [
+              "photos",
+              "rating",
+              "user_ratings_total",
+              "price_level",
+              "opening_hours",
+              "types",
+              "business_status",
+            ],
           },
           (result, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK && result) {
+            if (
+              status === google.maps.places.PlacesServiceStatus.OK &&
+              result
+            ) {
               // Set photo
               if (result.photos?.[0]) {
                 const photo = result.photos[0];
@@ -74,8 +105,14 @@ export default function PlaceCard({
 
               if (result.price_level !== undefined) {
                 // Convert price level (0-4) to price range format
-                const priceLevels = ['Free', '฿1-200', '฿200-500', '฿500-1000', '฿1000+'];
-                details.priceLevel = priceLevels[result.price_level] || '';
+                const priceLevels = [
+                  "Free",
+                  "฿1-200",
+                  "฿200-500",
+                  "฿500-1000",
+                  "฿1000+",
+                ];
+                details.priceLevel = priceLevels[result.price_level] || "";
               }
 
               if (result.opening_hours) {
@@ -84,9 +121,17 @@ export default function PlaceCard({
                 // Get opening hours text
                 if (result.opening_hours.weekday_text) {
                   const today = new Date().getDay();
-                  const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                  const todayText = result.opening_hours.weekday_text.find((text: string) =>
-                    text.startsWith(daysMap[today])
+                  const daysMap = [
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ];
+                  const todayText = result.opening_hours.weekday_text.find(
+                    (text: string) => text.startsWith(daysMap[today]!)
                   );
 
                   if (todayText) {
@@ -106,16 +151,30 @@ export default function PlaceCard({
                   if (details.isOpen && todayPeriod?.close) {
                     const hour = todayPeriod.close.hours || 0;
                     const minute = todayPeriod.close.minutes || 0;
-                    const ampm = hour >= 12 ? 'PM' : 'AM';
-                    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-                    details.hoursText = `Closes ${displayHour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+                    const ampm = hour >= 12 ? "PM" : "AM";
+                    const displayHour =
+                      hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+                    details.hoursText = `Closes ${displayHour}:${minute
+                      .toString()
+                      .padStart(2, "0")} ${ampm}`;
                   } else if (!details.isOpen && todayPeriod?.open) {
                     const hour = todayPeriod.open.hours || 0;
                     const minute = todayPeriod.open.minutes || 0;
-                    const ampm = hour >= 12 ? 'PM' : 'AM';
-                    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-                    const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][todayPeriod.open.day];
-                    details.hoursText = `Opens ${displayHour}:${minute.toString().padStart(2, '0')} ${ampm} ${dayName}`;
+                    const ampm = hour >= 12 ? "PM" : "AM";
+                    const displayHour =
+                      hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+                    const dayName = [
+                      "Sun",
+                      "Mon",
+                      "Tue",
+                      "Wed",
+                      "Thu",
+                      "Fri",
+                      "Sat",
+                    ][todayPeriod.open.day];
+                    details.hoursText = `Opens ${displayHour}:${minute
+                      .toString()
+                      .padStart(2, "0")} ${ampm} ${dayName}`;
                   }
                 }
               }
@@ -125,57 +184,57 @@ export default function PlaceCard({
                 // Priority order for type matching (check in this order)
                 const typePriority = [
                   // Specific cuisine types (highest priority)
-                  'thai_restaurant',
-                  'japanese_restaurant',
-                  'chinese_restaurant',
-                  'korean_restaurant',
-                  'vietnamese_restaurant',
-                  'italian_restaurant',
-                  'mexican_restaurant',
-                  'indian_restaurant',
-                  'french_restaurant',
-                  'american_restaurant',
-                  'seafood_restaurant',
-                  'steak_house',
-                  'sushi_restaurant',
-                  'pizza_restaurant',
-                  'sandwich_shop',
-                  'hamburger_restaurant',
-                  'fast_food_restaurant',
+                  "thai_restaurant",
+                  "japanese_restaurant",
+                  "chinese_restaurant",
+                  "korean_restaurant",
+                  "vietnamese_restaurant",
+                  "italian_restaurant",
+                  "mexican_restaurant",
+                  "indian_restaurant",
+                  "french_restaurant",
+                  "american_restaurant",
+                  "seafood_restaurant",
+                  "steak_house",
+                  "sushi_restaurant",
+                  "pizza_restaurant",
+                  "sandwich_shop",
+                  "hamburger_restaurant",
+                  "fast_food_restaurant",
                   // General restaurant/food types (medium priority)
-                  'restaurant',
-                  'cafe',
-                  'bar',
-                  'meal_takeaway',
-                  'bakery',
+                  "restaurant",
+                  "cafe",
+                  "bar",
+                  "meal_takeaway",
+                  "bakery",
                   // Generic types (lowest priority - avoid if possible)
-                  'food',
+                  "food",
                 ];
 
                 const typeMap: { [key: string]: string } = {
-                  'thai_restaurant': 'Thai Restaurant',
-                  'japanese_restaurant': 'Japanese Restaurant',
-                  'chinese_restaurant': 'Chinese Restaurant',
-                  'korean_restaurant': 'Korean Restaurant',
-                  'vietnamese_restaurant': 'Vietnamese Restaurant',
-                  'italian_restaurant': 'Italian Restaurant',
-                  'mexican_restaurant': 'Mexican Restaurant',
-                  'indian_restaurant': 'Indian Restaurant',
-                  'french_restaurant': 'French Restaurant',
-                  'american_restaurant': 'American Restaurant',
-                  'seafood_restaurant': 'Seafood Restaurant',
-                  'steak_house': 'Steakhouse',
-                  'sushi_restaurant': 'Sushi Restaurant',
-                  'pizza_restaurant': 'Pizza Restaurant',
-                  'sandwich_shop': 'Sandwich Shop',
-                  'hamburger_restaurant': 'Burger Restaurant',
-                  'fast_food_restaurant': 'Fast Food',
-                  'restaurant': 'Restaurant',
-                  'cafe': 'Cafe',
-                  'bar': 'Bar',
-                  'meal_takeaway': 'Takeaway',
-                  'bakery': 'Bakery',
-                  'food': 'Food',
+                  thai_restaurant: "Thai Restaurant",
+                  japanese_restaurant: "Japanese Restaurant",
+                  chinese_restaurant: "Chinese Restaurant",
+                  korean_restaurant: "Korean Restaurant",
+                  vietnamese_restaurant: "Vietnamese Restaurant",
+                  italian_restaurant: "Italian Restaurant",
+                  mexican_restaurant: "Mexican Restaurant",
+                  indian_restaurant: "Indian Restaurant",
+                  french_restaurant: "French Restaurant",
+                  american_restaurant: "American Restaurant",
+                  seafood_restaurant: "Seafood Restaurant",
+                  steak_house: "Steakhouse",
+                  sushi_restaurant: "Sushi Restaurant",
+                  pizza_restaurant: "Pizza Restaurant",
+                  sandwich_shop: "Sandwich Shop",
+                  hamburger_restaurant: "Burger Restaurant",
+                  fast_food_restaurant: "Fast Food",
+                  restaurant: "Restaurant",
+                  cafe: "Cafe",
+                  bar: "Bar",
+                  meal_takeaway: "Takeaway",
+                  bakery: "Bakery",
+                  food: "Food",
                 };
 
                 // Find highest priority matching type
@@ -189,15 +248,21 @@ export default function PlaceCard({
 
               setPlaceDetails(details);
             }
+            setIsLoading(false);
           }
         );
       } catch (error) {
-        console.error('Error fetching place data:', error);
+        console.error("Error fetching place data:", error);
+        setIsLoading(false);
       }
     };
 
     fetchPlaceData();
-  }, [place.placeId]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [place.placeId, isMapLoaded]);
 
   return (
     <div
@@ -206,7 +271,7 @@ export default function PlaceCard({
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onClick();
         }
@@ -241,8 +306,13 @@ export default function PlaceCard({
         <div className="place-card-header">
           <h4 className="place-card-name">{place.name}</h4>
 
+          {/* Loading indicator */}
+          {isLoading && (
+            <div className="place-card-loading">Loading details...</div>
+          )}
+
           {/* Google rating and review count */}
-          {placeDetails?.rating && (
+          {!isLoading && placeDetails?.rating && (
             <div className="place-card-rating-row">
               <span className="place-card-rating">
                 {placeDetails.rating} ⭐
@@ -261,14 +331,21 @@ export default function PlaceCard({
             <span className="place-card-category">{placeDetails.category}</span>
           )}
           {placeDetails?.priceLevel && (
-            <span className="place-card-price-level"> · {placeDetails.priceLevel}</span>
+            <span className="place-card-price-level">
+              {" "}
+              · {placeDetails.priceLevel}
+            </span>
           )}
         </div>
 
         {/* Opening hours */}
         {placeDetails?.isOpen !== undefined && placeDetails?.hoursText && (
-          <div className={`place-card-hours ${placeDetails.isOpen ? 'open' : 'closed'}`}>
-            {placeDetails.isOpen ? 'Open' : 'Closed'} · {placeDetails.hoursText}
+          <div
+            className={`place-card-hours ${
+              placeDetails.isOpen ? "open" : "closed"
+            }`}
+          >
+            {placeDetails.isOpen ? "Open" : "Closed"} · {placeDetails.hoursText}
           </div>
         )}
       </div>

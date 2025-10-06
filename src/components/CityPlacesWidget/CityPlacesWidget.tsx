@@ -48,12 +48,10 @@ export default function CityPlacesWidget({
   const [detailViewPlaceId, setDetailViewPlaceId] = useState<string | null>(
     null
   );
-  const [mapCenter, setMapCenter] = useState(
-    defaultCenter || { lat: 0, lng: 0 }
-  );
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showMapDetailView, setShowMapDetailView] = useState(false);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   // Detect mobile viewport
   useEffect(() => {
@@ -79,11 +77,6 @@ export default function CityPlacesWidget({
     lat: places.reduce((sum, p) => sum + p.coordinates.lat, 0) / places.length,
     lng: places.reduce((sum, p) => sum + p.coordinates.lng, 0) / places.length,
   };
-
-  // Update map center state
-  useEffect(() => {
-    setMapCenter(center);
-  }, [center]);
 
   // Filter places based on search query and active categories
   const filteredPlaces = places.filter((place) => {
@@ -126,7 +119,7 @@ export default function CityPlacesWidget({
       setSelectedPlaceId(placeId);
 
       // If in map mode, show fullscreen detail overlay instead of transitioning modes
-      if (viewMode === 'map') {
+      if (viewMode === "map") {
         setShowMapDetailView(true);
       }
     },
@@ -142,13 +135,6 @@ export default function CityPlacesWidget({
       }
     });
   }, []);
-
-  const handleMapBoundsChange = useCallback(
-    (newCenter: { lat: number; lng: number }) => {
-      setMapCenter(newCenter);
-    },
-    []
-  );
 
   // Render desktop layout
   if (!isMobile) {
@@ -175,7 +161,7 @@ export default function CityPlacesWidget({
             <input
               type="text"
               className="search-input"
-              placeholder={`Search ${cityName} places...`}
+              placeholder={`Filter by name`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -283,7 +269,9 @@ export default function CityPlacesWidget({
 
   // Mobile layout: Fullscreen map mode with bottom toolbar
   if (viewMode === "map") {
-    const mapModeClasses = `city-places-widget mobile-map-mode ${showMapDetailView ? 'detail-view-open' : ''}`;
+    const mapModeClasses = `city-places-widget mobile-map-mode ${
+      showMapDetailView ? "detail-view-open" : ""
+    }`;
     return (
       <div className={mapModeClasses}>
         {/* Close button */}
@@ -331,7 +319,7 @@ export default function CityPlacesWidget({
             <input
               type="text"
               className="search-input"
-              placeholder={`Search ${cityName}...`}
+              placeholder={`Filter by name`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -372,7 +360,7 @@ export default function CityPlacesWidget({
         <div className="widget-map fullscreen-map">
           <InteractiveMap
             places={filteredPlaces}
-            center={mapCenter}
+            center={center}
             zoom={defaultZoom}
             selectedPlaceId={detailViewPlaceId}
             hoveredPlaceId={hoveredPlaceId}
@@ -381,7 +369,7 @@ export default function CityPlacesWidget({
             onPlaceSelect={handlePlaceSelect}
             isFullscreen={true}
             enableClustering={places.length > 20}
-            onBoundsChange={handleMapBoundsChange}
+            onMapLoaded={setIsMapLoaded}
           />
         </div>
 
@@ -389,8 +377,9 @@ export default function CityPlacesWidget({
         <BottomToolbar
           places={filteredPlaces}
           selectedPlaceId={detailViewPlaceId}
-          mapCenter={mapCenter}
+          mapCenter={center}
           onPlaceClick={handlePlaceSelect}
+          isMapLoaded={isMapLoaded}
         />
 
         {/* Fullscreen detail overlay for map mode */}

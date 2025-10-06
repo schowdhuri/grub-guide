@@ -16,6 +16,7 @@ interface BottomToolbarProps {
   mapCenter: { lat: number; lng: number };
   onPlaceClick: (placeId: string) => void;
   maxCards?: number;
+  isMapLoaded: boolean;
 }
 
 /**
@@ -48,6 +49,7 @@ export default function BottomToolbar({
   mapCenter,
   onPlaceClick,
   maxCards = 8,
+  isMapLoaded,
 }: BottomToolbarProps): React.JSX.Element {
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -105,6 +107,7 @@ export default function BottomToolbar({
             isHighlighted={place.id === selectedPlaceId}
             distance={place.distance}
             onClick={() => onPlaceClick(place.id)}
+            isMapLoaded={isMapLoaded}
           />
         ))}
       </div>

@@ -20,6 +20,7 @@ interface InteractiveMapProps {
   isFullscreen?: boolean;
   enableClustering?: boolean;
   onBoundsChange?: (center: { lat: number; lng: number }) => void;
+  onMapLoaded?: (isLoaded: boolean) => void;
 }
 
 const mapContainerStyle = {
@@ -50,6 +51,7 @@ export default function InteractiveMap({
   isFullscreen = false,
   enableClustering = false,
   onBoundsChange,
+  onMapLoaded,
 }: InteractiveMapProps): React.JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -60,7 +62,15 @@ export default function InteractiveMap({
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: apiKey,
+    libraries: ['places'], // Load places library for PlaceCard
   });
+
+  // Notify parent when map is loaded
+  useEffect(() => {
+    if (onMapLoaded) {
+      onMapLoaded(isLoaded);
+    }
+  }, [isLoaded, onMapLoaded]);
 
   // Pan to selected place
   useEffect(() => {
@@ -85,29 +95,6 @@ export default function InteractiveMap({
     }
     setMap(null);
   }, []);
-
-  // Report map center changes to parent (debounced to prevent infinite loops)
-  const handleCenterChanged = useCallback(() => {
-    if (!map || !onBoundsChange) return;
-
-    const newCenter = map.getCenter();
-    if (newCenter) {
-      const lat = newCenter.lat();
-      const lng = newCenter.lng();
-
-      // Only update if center has changed significantly (more than 0.001 degrees)
-      const currentCenter = map.getCenter();
-      if (currentCenter) {
-        const threshold = 0.001;
-        const latDiff = Math.abs(lat - center.lat);
-        const lngDiff = Math.abs(lng - center.lng);
-
-        if (latDiff > threshold || lngDiff > threshold) {
-          onBoundsChange({ lat, lng });
-        }
-      }
-    }
-  }, [map, onBoundsChange, center]);
 
   const handleMarkerClick = (placeId: string) => {
     onMarkerClick(placeId);
@@ -182,7 +169,6 @@ export default function InteractiveMap({
       options={getMapOptions(isFullscreen)}
       onLoad={onLoad}
       onUnmount={onUnmount}
-      onCenterChanged={handleCenterChanged}
     >
       {map &&
         places.map((place) => (
