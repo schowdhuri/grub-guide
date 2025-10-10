@@ -1,3 +1,3 @@
 [submodule "media-curator"]
 	path = media-curator
-	url = ./media-curator
+	url = git@github.com:schowdhuri/media-curator.git
